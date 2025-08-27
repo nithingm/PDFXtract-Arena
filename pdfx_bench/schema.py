@@ -19,7 +19,8 @@ class ExtractionMethod(str, Enum):
     ADOBE_EXTRACT = "adobe"
     AWS_TEXTRACT = "textract"
     GOOGLE_DOCAI = "docai"
-    AZURE_DOCINTEL = "azure"
+    AZURE_READ = "azure-read"
+    AZURE_LAYOUT = "azure-layout"
     TESSERACT_OCR = "tesseract"
     LLM_EXTRACTION = "llm"
 

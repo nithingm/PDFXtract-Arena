@@ -10,6 +10,15 @@ from typing import List, Optional, Dict, Any
 import json
 from datetime import datetime
 
+# Load environment variables from .env file
+try:
+    from dotenv import load_dotenv
+    # Load from project root where .env is located
+    env_path = Path(__file__).parent.parent / '.env'
+    load_dotenv(env_path)
+except ImportError:
+    pass  # dotenv not installed, skip
+
 from .detectors import detect_pdf_type, should_use_ocr, get_recommended_extractors, parse_page_range
 from .normalize import DataNormalizer
 from .scoring import QualityScorer, compare_extraction_results
@@ -52,7 +61,8 @@ except ImportError:
 
 # Set availability flags - imports will be done dynamically
 DOCAI_AVAILABLE = True
-AZURE_AVAILABLE = True
+AZURE_READ_AVAILABLE = True
+AZURE_LAYOUT_AVAILABLE = True
 LLM_AVAILABLE = True
 
 logger = logging.getLogger(__name__)
@@ -243,7 +253,7 @@ def parse_methods(method_str: str) -> List[str]:
     # Validate methods
     valid_methods = {
         'pdfplumber', 'camelot-lattice', 'camelot-stream', 'tabula', 'poppler', 'tesseract',
-        'adobe', 'textract', 'docai', 'azure',
+        'adobe', 'textract', 'docai', 'azure-read', 'azure-layout',
         'llm-openai', 'llm-anthropic', 'llm-google'
     }
     
@@ -290,10 +300,19 @@ def create_adapter(method: str, **kwargs) -> Any:
             )
         except ImportError:
             raise RuntimeError("Google Document AI library not installed. Install with: pip install google-cloud-documentai")
-    elif method == 'azure':
+    elif method == 'azure-read':
         try:
-            from .adapters.azure_docintel_adapter import AzureDocIntelAdapter
-            return AzureDocIntelAdapter(
+            from .adapters.azure_read_adapter import AzureReadAdapter
+            return AzureReadAdapter(
+                endpoint=kwargs.get('azure_endpoint'),
+                api_key=kwargs.get('azure_key')
+            )
+        except ImportError:
+            raise RuntimeError("Azure Document Intelligence library not installed. Install with: pip install azure-ai-documentintelligence")
+    elif method == 'azure-layout':
+        try:
+            from .adapters.azure_layout_adapter import AzureLayoutAdapter
+            return AzureLayoutAdapter(
                 endpoint=kwargs.get('azure_endpoint'),
                 api_key=kwargs.get('azure_key')
             )

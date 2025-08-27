@@ -18,6 +18,15 @@ from flask import Flask, render_template, request, jsonify, send_file, session
 from werkzeug.utils import secure_filename
 import markdown
 
+# Load environment variables from .env file
+try:
+    from dotenv import load_dotenv
+    # Load from parent directory where .env is located
+    env_path = Path(__file__).parent.parent / '.env'
+    load_dotenv(env_path)
+except ImportError:
+    pass  # dotenv not installed, skip
+
 # Add parent directory to path to import pdfx_bench
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -71,7 +80,8 @@ def get_available_methods():
         {'id': 'tesseract', 'name': 'Tesseract OCR', 'description': 'OCR for scanned PDFs', 'type': 'local'},
         {'id': 'textract', 'name': 'AWS Textract', 'description': 'Cloud OCR and form extraction', 'type': 'cloud'},
         {'id': 'docai', 'name': 'Google Document AI', 'description': 'Advanced document understanding', 'type': 'cloud'},
-        {'id': 'azure', 'name': 'Azure Document Intelligence', 'description': 'Microsoft cloud extraction', 'type': 'cloud'},
+        {'id': 'azure-read', 'name': 'Azure Document Intelligence (Read)', 'description': 'Microsoft cloud text extraction', 'type': 'cloud'},
+        {'id': 'azure-layout', 'name': 'Azure Document Intelligence (Layout)', 'description': 'Microsoft cloud text and table extraction', 'type': 'cloud'},
         {'id': 'llm-openai', 'name': 'OpenAI GPT-4 Vision', 'description': 'AI-powered extraction', 'type': 'llm'},
         {'id': 'llm-anthropic', 'name': 'Anthropic Claude', 'description': 'AI document analysis', 'type': 'llm'},
         {'id': 'llm-google', 'name': 'Google Gemini', 'description': 'Multimodal AI extraction', 'type': 'llm'},
@@ -95,7 +105,7 @@ def get_available_methods():
                 method['reason'] = 'Requires AWS Access Key and Secret Key'
             elif method_id == 'docai':
                 method['reason'] = 'Requires Google Cloud Project ID and API Key'
-            elif method_id == 'azure':
+            elif method_id in ['azure-read', 'azure-layout']:
                 method['reason'] = 'Requires Azure Endpoint and API Key'
             elif method_id == 'llm-openai':
                 method['reason'] = 'Requires OpenAI API key'
@@ -121,6 +131,17 @@ def get_available_methods():
                 method['available'] = poppler_available
                 if not poppler_available:
                     method['reason'] = 'Requires Poppler utilities and pdf2image installation'
+
+    # Check Azure availability from environment variables
+    azure_endpoint = os.getenv('AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT')
+    azure_key = os.getenv('AZURE_DOCUMENT_INTELLIGENCE_KEY')
+    azure_available = bool(azure_endpoint and azure_key)
+
+    for method in methods:
+        if method['id'] in ['azure-read', 'azure-layout']:
+            method['available'] = azure_available
+            if not azure_available:
+                method['reason'] = 'Requires Azure Endpoint and API Key'
 
     return methods
 

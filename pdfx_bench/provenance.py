@@ -122,7 +122,7 @@ def normalize_confidence(confidence: Any, method: ExtractionMethod) -> Optional[
             # Document AI uses 0-1 range
             if 0 <= conf_float <= 1:
                 return conf_float
-        elif method == ExtractionMethod.AZURE_DOCINTEL:
+        elif method in [ExtractionMethod.AZURE_READ, ExtractionMethod.AZURE_LAYOUT]:
             # Azure uses 0-1 range
             if 0 <= conf_float <= 1:
                 return conf_float
