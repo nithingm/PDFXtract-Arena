@@ -184,9 +184,9 @@ class ResultExporter:
         report_path = self.reports_dir / f"{document_id}_comparison.md"
 
         with open(report_path, 'w', encoding='utf-8') as f:
-            f.write(f"# 📊 PDFX-Bench Extraction Comparison Report\n\n")
-            f.write(f"**📄 Document:** `{document_id}.pdf`\n")
-            f.write(f"**🕒 Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+            f.write(f"# PDFX-Bench Extraction Comparison Report\n\n")
+            f.write(f"     **Document:** `{document_id}.pdf`\n")
+            f.write(f"     **Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
 
             # Executive Summary
             f.write("## 🎯 Executive Summary\n\n")
@@ -194,24 +194,24 @@ class ResultExporter:
             f.write("no-hallucination algorithms. Each method is scored on accuracy, completeness, ")
             f.write("and data quality.\n\n")
 
-            f.write(f"- **📈 Methods Tested:** {comparison.get('total_methods', 0)}\n")
+            f.write(f"- **Methods Tested:** {comparison.get('total_methods', 0)}\n")
             best_overall = comparison.get('best_overall', 'N/A')
             if hasattr(best_overall, 'value'):
                 best_overall = best_overall.value
-            f.write(f"- **🏆 Best Overall:** {best_overall}\n")
+            f.write(f"- **Best Overall:** {best_overall}\n")
 
             best_tables = comparison.get('best_tables', 'N/A')
             if hasattr(best_tables, 'value'):
                 best_tables = best_tables.value
-            f.write(f"- **📋 Best for Tables:** {best_tables}\n")
+            f.write(f"- **Best for Tables:** {best_tables}\n")
 
             best_text = comparison.get('best_text', 'N/A')
             if hasattr(best_text, 'value'):
                 best_text = best_text.value
-            f.write(f"- **📝 Best for Text:** {best_text}\n\n")
+            f.write(f"- **Best for Text:** {best_text}\n\n")
             
             # Method Rankings
-            f.write("## 🏅 Method Rankings\n\n")
+            f.write("##  Method Rankings\n\n")
             f.write("Methods ranked by overall extraction quality:\n\n")
             rankings = comparison.get('method_rankings', [])
             for i, method in enumerate(rankings, 1):
@@ -221,7 +221,7 @@ class ResultExporter:
             f.write("\n")
 
             # Detailed Scores
-            f.write("## 📈 Performance Metrics\n\n")
+            f.write("##  Performance Metrics\n\n")
             detailed_scores = comparison.get('detailed_scores', {})
 
             if detailed_scores:

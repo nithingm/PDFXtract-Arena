@@ -24,6 +24,19 @@ from .adapters.pdfplumber_adapter import PDFPlumberAdapter
 from .adapters.camelot_adapter import CamelotAdapter
 from .adapters.tabula_adapter import TabulaAdapter
 
+# Optional OCR adapters
+try:
+    from .adapters.tesseract_ocr import TesseractOCRAdapter
+    TESSERACT_AVAILABLE = True
+except ImportError:
+    TESSERACT_AVAILABLE = False
+
+try:
+    from .adapters.poppler_adapter import PopplerAdapter
+    POPPLER_AVAILABLE = True
+except ImportError:
+    POPPLER_AVAILABLE = False
+
 # Optional cloud adapters
 try:
     from .adapters.adobe_extract_adapter import AdobeExtractAdapter
@@ -81,7 +94,7 @@ Examples:
         type=str,
         default='auto',
         help='Extraction method(s): auto, pdfplumber, camelot-lattice, camelot-stream, '
-             'tabula, adobe, textract, docai, azure, llm-openai, llm-anthropic, llm-google '
+             'tabula, poppler, tesseract, adobe, textract, docai, azure, llm-openai, llm-anthropic, llm-google '
              '(comma-separated for multiple)'
     )
     
@@ -229,7 +242,7 @@ def parse_methods(method_str: str) -> List[str]:
     
     # Validate methods
     valid_methods = {
-        'pdfplumber', 'camelot-lattice', 'camelot-stream', 'tabula',
+        'pdfplumber', 'camelot-lattice', 'camelot-stream', 'tabula', 'poppler', 'tesseract',
         'adobe', 'textract', 'docai', 'azure',
         'llm-openai', 'llm-anthropic', 'llm-google'
     }
@@ -251,6 +264,14 @@ def create_adapter(method: str, **kwargs) -> Any:
         return CamelotAdapter(mode='stream')
     elif method == 'tabula':
         return TabulaAdapter()
+    elif method == 'poppler':
+        if not POPPLER_AVAILABLE:
+            raise RuntimeError("Poppler dependencies not installed. Install with: pip install pdf2image and ensure Poppler utilities are in PATH")
+        return PopplerAdapter()
+    elif method == 'tesseract':
+        if not TESSERACT_AVAILABLE:
+            raise RuntimeError("Tesseract OCR dependencies not installed. Install with: pip install pytesseract pdf2image")
+        return TesseractOCRAdapter()
     elif method == 'adobe':
         if not ADOBE_AVAILABLE:
             raise RuntimeError("Adobe PDF Services SDK not installed. Install with: pip install pdfservices-sdk")

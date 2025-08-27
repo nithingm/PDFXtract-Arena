@@ -1,0 +1,9 @@
+{
+  "total_pdfs": 1,
+  "successful_pdfs": 1,
+  "methods_used": [
+    "poppler"
+  ],
+  "output_directory": "test_poppler_debug",
+  "processing_time": {}
+}

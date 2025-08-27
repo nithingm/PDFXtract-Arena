@@ -15,6 +15,7 @@ class ExtractionMethod(str, Enum):
     CAMELOT_LATTICE = "camelot-lattice"
     CAMELOT_STREAM = "camelot-stream"
     TABULA = "tabula"
+    POPPLER = "poppler"
     ADOBE_EXTRACT = "adobe"
     AWS_TEXTRACT = "textract"
     GOOGLE_DOCAI = "docai"

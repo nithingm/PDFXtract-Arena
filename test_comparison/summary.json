@@ -1,0 +1,10 @@
+{
+  "total_pdfs": 1,
+  "successful_pdfs": 1,
+  "methods_used": [
+    "pdfplumber",
+    "tesseract"
+  ],
+  "output_directory": "test_comparison",
+  "processing_time": {}
+}

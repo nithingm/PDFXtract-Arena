@@ -23,16 +23,26 @@ The easiest way to get started is with the web interface:
    pip install -r requirements.txt
    ```
 
-2. **Start Web Interface**
+2. **Automated OCR Setup (Windows)**
+   ```cmd
+   # Run automated setup for Tesseract OCR and Poppler
+   powershell -ExecutionPolicy Bypass -File scripts/setup-windows.ps1
+
+   # Verify installation
+   python scripts/check_dependencies.py
+   ```
+
+3. **Start Web Interface**
    ```bash
    cd web
    python app.py
    ```
 
-3. **Open Browser**
+4. **Open Browser**
    - Navigate to: http://localhost:4000
    - Drag & drop a PDF file
    - Select extraction methods (local methods work without API keys)
+   - Tesseract OCR will be automatically enabled if properly installed
    - Click "Start Processing"
 
 ### Command Line Usage
@@ -42,7 +52,7 @@ The easiest way to get started is with the web interface:
 python -m pdfx_bench.cli --input document.pdf --method pdfplumber
 
 # Compare multiple methods
-python -m pdfx_bench.cli --input document.pdf --method pdfplumber,camelot-lattice,tabula
+python -m pdfx_bench.cli --input document.pdf --method pdfplumber,poppler,tesseract
 
 # Extract specific pages
 python -m pdfx_bench.cli --input file.pdf --method auto --pages "1,2,5-7"
@@ -231,6 +241,8 @@ The web interface provides an intuitive way to compare PDF extraction methods:
 - Camelot Lattice - Tables with visible borders
 - Camelot Stream - Tables without borders
 - Tabula - Academic table extraction (requires Java)
+- Poppler - PDF utilities for text extraction (requires setup)
+- Tesseract OCR - OCR for scanned PDFs (requires setup)
 
 **Cloud Methods (API keys required):**
 - AWS Textract - Advanced OCR and form extraction
@@ -241,6 +253,23 @@ The web interface provides an intuitive way to compare PDF extraction methods:
 - OpenAI GPT-4 Vision - AI-powered extraction
 - Anthropic Claude - AI document analysis
 - Google Gemini - Multimodal AI extraction
+
+### Method Comparison
+
+| Method | Speed | Text Quality | Table Support | OCR Support | Setup Required |
+|--------|-------|--------------|---------------|-------------|----------------|
+| PDFplumber | ⚡⚡⚡ | ⭐⭐⭐ | ⭐⭐ | ❌ | None |
+| Poppler | ⚡⚡⚡ | ⭐⭐⭐⭐ | ❌ | ❌ | Poppler utilities |
+| Tesseract OCR | ⚡ | ⭐⭐⭐⭐ | ❌ | ✅ | Tesseract + Poppler |
+| Camelot | ⚡⚡ | ⭐⭐ | ⭐⭐⭐⭐ | ❌ | None |
+| Tabula | ⚡⚡ | ⭐⭐ | ⭐⭐⭐ | ❌ | Java |
+
+**Recommendations:**
+- **Text-heavy PDFs**: Use Poppler for best quality and speed
+- **Scanned documents**: Use Tesseract OCR
+- **Complex tables**: Use Camelot or Tabula
+- **Quick analysis**: Use PDFplumber
+- **Best results**: Compare multiple methods
 
 ---
 
@@ -253,7 +282,7 @@ The web interface provides an intuitive way to compare PDF extraction methods:
 python -m pdfx_bench.cli --input document.pdf --method pdfplumber
 
 # Compare multiple local methods
-python -m pdfx_bench.cli --input document.pdf --method pdfplumber,camelot-lattice,tabula
+python -m pdfx_bench.cli --input document.pdf --method pdfplumber,poppler,tesseract
 
 # Extract specific pages
 python -m pdfx_bench.cli --input file.pdf --method auto --pages "1,2,5-7"
@@ -344,6 +373,20 @@ The web interface displays results in organized tabs:
 ## Troubleshooting
 
 ### Common Issues
+
+**Tesseract OCR or Poppler not working:**
+```bash
+# Check installation status
+python scripts/check_dependencies.py
+
+# Automated setup (Windows)
+powershell -ExecutionPolicy Bypass -File scripts/setup-windows.ps1
+
+# Manual verification
+tesseract --version
+pdftoppm -h
+pdftotext -v
+```
 
 **"Java not found" error:**
 ```bash
@@ -462,6 +505,8 @@ MIT License - see LICENSE file for details.
 - [pdfplumber](https://github.com/jsvine/pdfplumber) - PDF text and table extraction
 - [camelot](https://github.com/camelot-dev/camelot) - Table extraction library
 - [tabula-py](https://github.com/chezou/tabula-py) - Python wrapper for tabula-java
+- [Poppler](https://poppler.freedesktop.org/) - PDF rendering library and utilities
+- [Tesseract](https://github.com/tesseract-ocr/tesseract) - Open source OCR engine
 - Cloud providers for their well-documented AI services
 - Open source community for continuous improvements
 

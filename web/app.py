@@ -21,6 +21,25 @@ import markdown
 # Add parent directory to path to import pdfx_bench
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+# Import dependency checker
+sys.path.insert(0, str(Path(__file__).parent.parent / 'scripts'))
+
+# Update PATH to include common Tesseract and Poppler locations
+common_paths = [
+    r"C:\Program Files\Tesseract-OCR",
+    r"C:\poppler\poppler-23.11.0\Library\bin",
+    r"C:\poppler\Library\bin"
+]
+for path in common_paths:
+    if os.path.exists(path) and path not in os.environ.get('PATH', ''):
+        os.environ['PATH'] = os.environ.get('PATH', '') + os.pathsep + path
+
+try:
+    from check_dependencies import DependencyChecker
+    dependency_checker = DependencyChecker()
+except ImportError:
+    dependency_checker = None
+
 app = Flask(__name__)
 app.secret_key = 'pdfx-bench-secret-key-change-in-production'
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50MB max file size
@@ -48,6 +67,8 @@ def get_available_methods():
         {'id': 'camelot-lattice', 'name': 'Camelot Lattice', 'description': 'Tables with visible borders', 'type': 'local'},
         {'id': 'camelot-stream', 'name': 'Camelot Stream', 'description': 'Tables without borders', 'type': 'local'},
         {'id': 'tabula', 'name': 'Tabula', 'description': 'Academic table extraction', 'type': 'local'},
+        {'id': 'poppler', 'name': 'Poppler', 'description': 'PDF utilities for text extraction', 'type': 'local'},
+        {'id': 'tesseract', 'name': 'Tesseract OCR', 'description': 'OCR for scanned PDFs', 'type': 'local'},
         {'id': 'textract', 'name': 'AWS Textract', 'description': 'Cloud OCR and form extraction', 'type': 'cloud'},
         {'id': 'docai', 'name': 'Google Document AI', 'description': 'Advanced document understanding', 'type': 'cloud'},
         {'id': 'azure', 'name': 'Azure Document Intelligence', 'description': 'Microsoft cloud extraction', 'type': 'cloud'},
@@ -55,6 +76,52 @@ def get_available_methods():
         {'id': 'llm-anthropic', 'name': 'Anthropic Claude', 'description': 'AI document analysis', 'type': 'llm'},
         {'id': 'llm-google', 'name': 'Google Gemini', 'description': 'Multimodal AI extraction', 'type': 'llm'},
     ]
+
+    # Set availability for all methods
+    for method in methods:
+        method_id = method['id']
+
+        # Basic local methods are always available
+        if method_id in ['pdfplumber', 'camelot-lattice', 'camelot-stream']:
+            method['available'] = True
+        # Tabula may require Java but is generally available
+        elif method_id == 'tabula':
+            method['available'] = True
+            method['reason'] = 'May require Java installation'
+        # Cloud and LLM methods require API keys
+        elif method['type'] in ['cloud', 'llm']:
+            method['available'] = False
+            if method_id == 'textract':
+                method['reason'] = 'Requires AWS Access Key and Secret Key'
+            elif method_id == 'docai':
+                method['reason'] = 'Requires Google Cloud Project ID and API Key'
+            elif method_id == 'azure':
+                method['reason'] = 'Requires Azure Endpoint and API Key'
+            elif method_id == 'llm-openai':
+                method['reason'] = 'Requires OpenAI API key'
+            elif method_id == 'llm-anthropic':
+                method['reason'] = 'Requires Anthropic API key'
+            elif method_id == 'llm-google':
+                method['reason'] = 'Requires Google API key'
+
+    # Check OCR dependencies availability dynamically
+    if dependency_checker:
+        dependency_checker.check_all()
+        availability_status = dependency_checker.get_availability_status()
+        tesseract_available = availability_status['tesseract_available']
+        poppler_available = availability_status['poppler_available']
+
+        # Update OCR method availability
+        for method in methods:
+            if method['id'] == 'tesseract':
+                method['available'] = tesseract_available
+                if not tesseract_available:
+                    method['reason'] = 'Requires Tesseract OCR and Poppler installation'
+            elif method['id'] == 'poppler':
+                method['available'] = poppler_available
+                if not poppler_available:
+                    method['reason'] = 'Requires Poppler utilities and pdf2image installation'
+
     return methods
 
 def process_pdf_async(session_id: str, pdf_path: Path, methods: List[str], options: Dict[str, Any]):
@@ -229,6 +296,16 @@ def index():
     """Main page."""
     methods = get_available_methods()
     return render_template('index.html', methods=methods)
+
+@app.route('/api/methods')
+def api_methods():
+    """Get available extraction methods with dynamic availability checking."""
+    try:
+        methods = get_available_methods()
+        return jsonify(methods)
+    except Exception as e:
+        app.logger.error(f"Error getting methods: {e}")
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/upload', methods=['POST'])
 def upload_file():

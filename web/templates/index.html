@@ -550,18 +550,67 @@
 
         // Check method availability and setup
         function checkMethodAvailability() {
-            const methodAvailability = {
-                'pdfplumber': { available: true, reason: '' },
-                'camelot-lattice': { available: true, reason: '' },
-                'camelot-stream': { available: true, reason: '' },
-                'tabula': { available: true, reason: 'May require Java installation' },
-                'textract': { available: false, reason: 'Requires AWS Access Key and Secret Key' },
-                'docai': { available: false, reason: 'Requires Google Cloud Project ID and API Key' },
-                'azure': { available: false, reason: 'Requires Azure Endpoint and API Key' },
-                'llm-openai': { available: false, reason: 'Requires OpenAI API key' },
-                'llm-anthropic': { available: false, reason: 'Requires Anthropic API key' },
-                'llm-google': { available: false, reason: 'Requires Google API key' }
-            };
+            // Fetch method availability from server
+            fetch('/api/methods')
+                .then(response => response.json())
+                .then(methods => {
+                    const methodAvailability = {};
+
+                    // Build availability map from server response
+                    methods.forEach(method => {
+                        methodAvailability[method.id] = {
+                            available: method.available === true,  // Only true if explicitly set to true
+                            reason: method.reason || ''
+                        };
+                    });
+
+                    // Apply default availability for methods not returned by server
+                    const defaultAvailability = {
+                        'pdfplumber': { available: true, reason: '' },
+                        'camelot-lattice': { available: true, reason: '' },
+                        'camelot-stream': { available: true, reason: '' },
+                        'tabula': { available: true, reason: 'May require Java installation' },
+                        'poppler': { available: false, reason: 'Requires Poppler utilities and pdf2image installation' },
+                        'tesseract': { available: false, reason: 'Requires Tesseract OCR and Poppler installation' },
+                        'textract': { available: false, reason: 'Requires AWS Access Key and Secret Key' },
+                        'docai': { available: false, reason: 'Requires Google Cloud Project ID and API Key' },
+                        'azure': { available: false, reason: 'Requires Azure Endpoint and API Key' },
+                        'llm-openai': { available: false, reason: 'Requires OpenAI API key' },
+                        'llm-anthropic': { available: false, reason: 'Requires Anthropic API key' },
+                        'llm-google': { available: false, reason: 'Requires Google API key' }
+                    };
+
+                    // Merge with defaults
+                    Object.keys(defaultAvailability).forEach(methodId => {
+                        if (!methodAvailability[methodId]) {
+                            methodAvailability[methodId] = defaultAvailability[methodId];
+                        }
+                    });
+
+                    updateMethodCards(methodAvailability);
+                })
+                .catch(error => {
+                    console.error('Error fetching method availability:', error);
+                    // Fallback to default availability
+                    const defaultAvailability = {
+                        'pdfplumber': { available: true, reason: '' },
+                        'camelot-lattice': { available: true, reason: '' },
+                        'camelot-stream': { available: true, reason: '' },
+                        'tabula': { available: true, reason: 'May require Java installation' },
+                        'poppler': { available: false, reason: 'Requires Poppler utilities and pdf2image installation' },
+                        'tesseract': { available: false, reason: 'Requires Tesseract OCR and Poppler installation' },
+                        'textract': { available: false, reason: 'Requires AWS Access Key and Secret Key' },
+                        'docai': { available: false, reason: 'Requires Google Cloud Project ID and API Key' },
+                        'azure': { available: false, reason: 'Requires Azure Endpoint and API Key' },
+                        'llm-openai': { available: false, reason: 'Requires OpenAI API key' },
+                        'llm-anthropic': { available: false, reason: 'Requires Anthropic API key' },
+                        'llm-google': { available: false, reason: 'Requires Google API key' }
+                    };
+                    updateMethodCards(defaultAvailability);
+                });
+        }
+
+        function updateMethodCards(methodAvailability) {
 
             document.querySelectorAll('.method-card').forEach(card => {
                 const methodId = card.dataset.method;
@@ -581,8 +630,11 @@
                     card.classList.remove('disabled');
                     checkbox.disabled = false;
                     availabilityStatus.innerHTML = '<i class="fas fa-check-circle text-success"></i>';
+                    availabilityNote.classList.add('d-none');
                     if (availability && availability.reason) {
                         card.setAttribute('title', availability.reason);
+                    } else {
+                        card.removeAttribute('title');
                     }
                 }
             });
