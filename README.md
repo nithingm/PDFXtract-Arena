@@ -1,4 +1,4 @@
-# PDFX-Bench: No-Hallucination PDF Extraction Benchmark
+# PDFXtract-Arena: No-Hallucination PDF Extraction Benchmark
 
 A comprehensive PDF extraction benchmark tool that compares multiple extraction methods with zero-hallucination policy. Extract text and tables from PDFs using various extractors, normalize results to a canonical schema, and generate auditable quality reports.
 
@@ -10,7 +10,7 @@ The easiest way to get started is with the web interface:
 
 1. **Clone and Setup**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/nithingm/PDFXtract-Arena.git
    cd pdfx-bench
    python -m venv venv
 
