@@ -1,0 +1,37 @@
+# Core dependencies
+pydantic>=2.0.0
+click>=8.0.0
+rich>=13.0.0
+
+# PDF processing
+PyMuPDF>=1.23.0
+pdfplumber>=0.10.0
+camelot-py[cv]>=0.11.0
+tabula-py>=2.8.0
+
+# Data processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Cloud APIs (optional)
+boto3>=1.28.0  # AWS Textract
+google-cloud-documentai>=2.20.0  # Google Document AI
+azure-ai-documentintelligence>=1.0.0  # Azure Document Intelligence
+pdfservices-sdk>=4.0.0  # Adobe PDF Services
+
+# OCR (optional)
+pytesseract>=0.3.10
+pdf2image>=3.1.0
+
+# Export formats
+openpyxl>=3.1.0  # Excel export
+pyarrow>=12.0.0  # Parquet export
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Development
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.5.0

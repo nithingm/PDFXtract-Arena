@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDFX-Bench - PDF Extraction Comparison</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        .upload-area {
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .upload-area:hover {
+            border-color: #0d6efd;
+            background-color: #f8f9fa;
+        }
+        .upload-area.dragover {
+            border-color: #0d6efd;
+            background-color: #e7f3ff;
+        }
+        .method-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .method-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .method-card.selected {
+            border-color: #0d6efd;
+            background-color: #e7f3ff;
+        }
+        .method-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: #f8f9fa;
+        }
+        .method-card.disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        .progress-container {
+            display: none;
+        }
+        .results-container {
+            display: none;
+        }
+        .badge-local { background-color: #28a745; }
+        .badge-cloud { background-color: #17a2b8; }
+        .badge-llm { background-color: #6f42c1; }
+        .tab-content {
+            min-height: 400px;
+        }
+        .json-viewer {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .table-responsive {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-file-pdf me-2"></i>
+                    PDFX-Bench
+                </a>
+                <span class="navbar-text">
+                    PDF Extraction Method Comparison Tool
+                </span>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="container">
+            <!-- Upload Section -->
+            <div id="upload-section">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-upload me-2"></i>Upload PDF Document</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="upload-form" enctype="multipart/form-data">
+                                    <div class="upload-area" id="upload-area">
+                                        <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                                        <h5>Drag & Drop PDF Here</h5>
+                                        <p class="text-muted">or click to browse files</p>
+                                        <input type="file" id="file-input" name="file" accept=".pdf" style="display: none;">
+                                    </div>
+                                    <div id="file-info" class="mt-3" style="display: none;">
+                                        <div class="alert alert-info">
+                                            <i class="fas fa-file-pdf me-2"></i>
+                                            <span id="file-name"></span>
+                                            <button type="button" class="btn-close float-end" id="remove-file"></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Processing Options -->
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                <h6><i class="fas fa-cog me-2"></i>Processing Options</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="min-confidence" class="form-label">Minimum Confidence</label>
+                                        <input type="range" class="form-range" id="min-confidence" name="min_confidence" 
+                                               min="0" max="1" step="0.1" value="0">
+                                        <div class="d-flex justify-content-between">
+                                            <small>0.0</small>
+                                            <small id="confidence-value">0.0</small>
+                                            <small>1.0</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="page-range" class="form-label">Page Range (optional)</label>
+                                        <input type="text" class="form-control" id="page-range" name="page_range" 
+                                               placeholder="e.g., 1,3,5-7">
+                                        <small class="form-text text-muted">Leave empty to process all pages</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Method Selection -->
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5><i class="fas fa-tools me-2"></i>Extraction Methods</h5>
+                                <div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" id="select-all">
+                                        Select All
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="select-local">
+                                        Local Only
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body" style="max-height: 400px; overflow-y: auto;">
+                                <div id="methods-container">
+                                    {% for method in methods %}
+                                    <div class="method-card card mb-2" data-method="{{ method.id }}" data-type="{{ method.type }}"
+                                         data-bs-toggle="tooltip" data-bs-placement="left" title="">
+                                        <div class="card-body p-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input method-checkbox" type="checkbox" name="methods"
+                                                       value="{{ method.id }}" id="method-{{ method.id }}">
+                                                <label class="form-check-label" for="method-{{ method.id }}">
+                                                    <strong>{{ method.name }}</strong>
+                                                    <span class="badge badge-{{ method.type }} ms-2">{{ method.type }}</span>
+                                                    <span class="availability-status ms-1"></span>
+                                                </label>
+                                            </div>
+                                            <small class="text-muted">{{ method.description }}</small>
+                                            <small class="availability-note text-warning d-none"></small>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- API Keys (Collapsible) -->
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                <button class="btn btn-link p-0 text-decoration-none" type="button" 
+                                        data-bs-toggle="collapse" data-bs-target="#api-keys">
+                                    <i class="fas fa-key me-2"></i>API Keys (Optional)
+                                    <i class="fas fa-chevron-down ms-2"></i>
+                                </button>
+                            </div>
+                            <div class="collapse" id="api-keys">
+                                <div class="card-body">
+                                    <div class="mb-2">
+                                        <label class="form-label">OpenAI API Key</label>
+                                        <input type="password" class="form-control form-control-sm" name="openai_api_key" placeholder="sk-...">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">Anthropic API Key</label>
+                                        <input type="password" class="form-control form-control-sm" name="anthropic_api_key" placeholder="sk-ant-...">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">Google API Key</label>
+                                        <input type="password" class="form-control form-control-sm" name="google_api_key" placeholder="AIza...">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">AWS Access Key ID</label>
+                                        <input type="password" class="form-control form-control-sm" name="aws_access_key" placeholder="AKIA...">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">AWS Secret Access Key</label>
+                                        <input type="password" class="form-control form-control-sm" name="aws_secret_key" placeholder="...">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">Google Cloud Project ID</label>
+                                        <input type="text" class="form-control form-control-sm" name="gcp_project_id" placeholder="my-project-123">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">Google Cloud Location</label>
+                                        <input type="text" class="form-control form-control-sm" name="gcp_location" placeholder="us" value="us">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">Azure Endpoint</label>
+                                        <input type="text" class="form-control form-control-sm" name="azure_endpoint" placeholder="https://...cognitiveservices.azure.com/">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">Azure API Key</label>
+                                        <input type="password" class="form-control form-control-sm" name="azure_key" placeholder="...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Process Button -->
+                        <button type="button" class="btn btn-primary btn-lg w-100 mt-3" id="process-btn" disabled>
+                            <i class="fas fa-play me-2"></i>Start Processing
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Section -->
+            <div id="progress-section" class="progress-container">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-spinner fa-spin me-2"></i>Processing PDF...</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="progress mb-3">
+                            <div class="progress-bar" id="progress-bar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                        <div id="status-text">Initializing...</div>
+                        <div id="current-method" class="text-muted mt-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results-section" class="results-container">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-chart-bar me-2"></i>Extraction Results</h5>
+                        <button type="button" class="btn btn-sm btn-outline-primary float-end" id="new-analysis">
+                            <i class="fas fa-plus me-1"></i>New Analysis
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <!-- Results Tabs -->
+                        <ul class="nav nav-tabs" id="results-tabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="overview-tab" data-bs-toggle="tab"
+                                        data-bs-target="#overview" type="button" role="tab">
+                                    <i class="fas fa-chart-pie me-1"></i>Overview
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="tables-tab" data-bs-toggle="tab"
+                                        data-bs-target="#tables" type="button" role="tab">
+                                    <i class="fas fa-table me-1"></i>Tables
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="text-tab" data-bs-toggle="tab"
+                                        data-bs-target="#text" type="button" role="tab">
+                                    <i class="fas fa-align-left me-1"></i>Text Blocks
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="json-tab" data-bs-toggle="tab"
+                                        data-bs-target="#json" type="button" role="tab">
+                                    <i class="fas fa-code me-1"></i>Raw Data
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="report-tab" data-bs-toggle="tab"
+                                        data-bs-target="#report" type="button" role="tab">
+                                    <i class="fas fa-file-alt me-1"></i>Comparison Report
+                                </button>
+                            </li>
+                        </ul>
+
+                        <!-- Tab Content -->
+                        <div class="tab-content mt-3" id="results-tab-content">
+                            <!-- Overview Tab -->
+                            <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6>Processing Summary</h6>
+                                            </div>
+                                            <div class="card-body" id="processing-summary">
+                                                <!-- Will be populated by JavaScript -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6>Method Rankings</h6>
+                                            </div>
+                                            <div class="card-body" id="method-rankings">
+                                                <!-- Will be populated by JavaScript -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6>Performance Metrics</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped" id="metrics-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Method</th>
+                                                                <th>Quality Score</th>
+                                                                <th>Tables Found</th>
+                                                                <th>Text Blocks</th>
+                                                                <th>Processing Time</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="metrics-tbody">
+                                                            <!-- Will be populated by JavaScript -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tables Tab -->
+                            <div class="tab-pane fade" id="tables" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6>Select Method</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <select class="form-select" id="table-method-select">
+                                                    <!-- Will be populated by JavaScript -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="card">
+                                            <div class="card-header d-flex justify-content-between">
+                                                <h6>Extracted Tables</h6>
+                                                <button class="btn btn-sm btn-outline-primary" id="download-tables">
+                                                    <i class="fas fa-download me-1"></i>Download CSV
+                                                </button>
+                                            </div>
+                                            <div class="card-body">
+                                                <div id="tables-content">
+                                                    <!-- Will be populated by JavaScript -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Text Tab -->
+                            <div class="tab-pane fade" id="text" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6>Select Method</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <select class="form-select" id="text-method-select">
+                                                    <!-- Will be populated by JavaScript -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="card">
+                                            <div class="card-header d-flex justify-content-between">
+                                                <h6>Extracted Text Blocks</h6>
+                                                <button class="btn btn-sm btn-outline-primary" id="download-text">
+                                                    <i class="fas fa-download me-1"></i>Download JSONL
+                                                </button>
+                                            </div>
+                                            <div class="card-body">
+                                                <div id="text-content">
+                                                    <!-- Will be populated by JavaScript -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- JSON Tab -->
+                            <div class="tab-pane fade" id="json" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6>Select Method</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <select class="form-select" id="json-method-select">
+                                                    <!-- Will be populated by JavaScript -->
+                                                </select>
+                                                <button class="btn btn-sm btn-outline-primary mt-2 w-100" id="download-json">
+                                                    <i class="fas fa-download me-1"></i>Download JSON
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6>Raw Extraction Data</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="json-viewer" id="json-content">
+                                                    <!-- Will be populated by JavaScript -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Report Tab -->
+                            <div class="tab-pane fade" id="report" role="tabpanel">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between">
+                                        <h6>Comparison Report</h6>
+                                        <button class="btn btn-sm btn-outline-primary" id="download-report">
+                                            <i class="fas fa-download me-1"></i>Download Report
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="report-content">
+                                            <!-- Will be populated by JavaScript -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+        let currentSessionId = null;
+        let processingInterval = null;
+        let currentResults = null;
+
+        // DOM elements
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+        const fileInfo = document.getElementById('file-info');
+        const fileName = document.getElementById('file-name');
+        const removeFile = document.getElementById('remove-file');
+        const processBtn = document.getElementById('process-btn');
+        const uploadSection = document.getElementById('upload-section');
+        const progressSection = document.getElementById('progress-section');
+        const resultsSection = document.getElementById('results-section');
+        const progressBar = document.getElementById('progress-bar');
+        const statusText = document.getElementById('status-text');
+        const currentMethodText = document.getElementById('current-method');
+        const confidenceSlider = document.getElementById('min-confidence');
+        const confidenceValue = document.getElementById('confidence-value');
+
+        // File upload handling
+        uploadArea.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileSelect(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFileSelect(e.target.files[0]);
+            }
+        });
+
+        removeFile.addEventListener('click', () => {
+            fileInput.value = '';
+            fileInfo.style.display = 'none';
+            updateProcessButton();
+        });
+
+        function handleFileSelect(file) {
+            if (file.type !== 'application/pdf') {
+                alert('Please select a PDF file.');
+                return;
+            }
+            fileName.textContent = file.name;
+            fileInfo.style.display = 'block';
+            updateProcessButton();
+        }
+
+        // Check method availability and setup
+        function checkMethodAvailability() {
+            const methodAvailability = {
+                'pdfplumber': { available: true, reason: '' },
+                'camelot-lattice': { available: true, reason: '' },
+                'camelot-stream': { available: true, reason: '' },
+                'tabula': { available: true, reason: 'May require Java installation' },
+                'textract': { available: false, reason: 'Requires AWS Access Key and Secret Key' },
+                'docai': { available: false, reason: 'Requires Google Cloud Project ID and API Key' },
+                'azure': { available: false, reason: 'Requires Azure Endpoint and API Key' },
+                'llm-openai': { available: false, reason: 'Requires OpenAI API key' },
+                'llm-anthropic': { available: false, reason: 'Requires Anthropic API key' },
+                'llm-google': { available: false, reason: 'Requires Google API key' }
+            };
+
+            document.querySelectorAll('.method-card').forEach(card => {
+                const methodId = card.dataset.method;
+                const checkbox = card.querySelector('input[type="checkbox"]');
+                const availabilityStatus = card.querySelector('.availability-status');
+                const availabilityNote = card.querySelector('.availability-note');
+                const availability = methodAvailability[methodId];
+
+                if (availability && !availability.available) {
+                    card.classList.add('disabled');
+                    checkbox.disabled = true;
+                    availabilityStatus.innerHTML = '<i class="fas fa-exclamation-triangle text-warning"></i>';
+                    availabilityNote.textContent = availability.reason;
+                    availabilityNote.classList.remove('d-none');
+                    card.setAttribute('title', `Unavailable: ${availability.reason}`);
+                } else {
+                    card.classList.remove('disabled');
+                    checkbox.disabled = false;
+                    availabilityStatus.innerHTML = '<i class="fas fa-check-circle text-success"></i>';
+                    if (availability && availability.reason) {
+                        card.setAttribute('title', availability.reason);
+                    }
+                }
+            });
+
+            // Initialize tooltips
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        }
+
+        // Method selection
+        document.getElementById('select-all').addEventListener('click', () => {
+            document.querySelectorAll('.method-checkbox:not(:disabled)').forEach(cb => {
+                cb.checked = true;
+                cb.closest('.method-card').classList.add('selected');
+            });
+            updateProcessButton();
+        });
+
+        document.getElementById('select-local').addEventListener('click', () => {
+            document.querySelectorAll('.method-checkbox').forEach(cb => {
+                const isLocal = cb.closest('.method-card').dataset.type === 'local';
+                const isAvailable = !cb.disabled;
+                cb.checked = isLocal && isAvailable;
+                cb.closest('.method-card').classList.toggle('selected', cb.checked);
+            });
+            updateProcessButton();
+        });
+
+        document.querySelectorAll('.method-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                e.target.closest('.method-card').classList.toggle('selected', e.target.checked);
+                updateProcessButton();
+            });
+        });
+
+        // Confidence slider
+        confidenceSlider.addEventListener('input', (e) => {
+            confidenceValue.textContent = e.target.value;
+        });
+
+        function updateProcessButton() {
+            const hasFile = fileInput.files.length > 0 || fileInfo.style.display !== 'none';
+            const hasMethod = document.querySelectorAll('.method-checkbox:checked:not(:disabled)').length > 0;
+            processBtn.disabled = !(hasFile && hasMethod);
+
+            // Debug logging
+            console.log('Update Process Button:', {
+                hasFile: hasFile,
+                hasMethod: hasMethod,
+                fileCount: fileInput.files.length,
+                fileInfoVisible: fileInfo.style.display !== 'none',
+                checkedMethods: document.querySelectorAll('.method-checkbox:checked:not(:disabled)').length
+            });
+        }
+
+        // Process button
+        processBtn.addEventListener('click', startProcessing);
+
+        function startProcessing() {
+            // Check if file is uploaded
+            if (!fileInput.files.length) {
+                alert('Please upload a PDF file first.');
+                return;
+            }
+
+            // Check if methods are selected
+            const selectedMethods = document.querySelectorAll('.method-checkbox:checked:not(:disabled)');
+            if (selectedMethods.length === 0) {
+                alert('Please select at least one extraction method.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('pdf_file', fileInput.files[0]);
+
+            // Add selected methods
+            selectedMethods.forEach(cb => {
+                formData.append('methods', cb.value);
+            });
+
+            // Add options
+            formData.append('min_confidence', confidenceSlider.value);
+
+            // Add page range if specified
+            const pageRangeInput = document.querySelector('input[name="page_range"]');
+            if (pageRangeInput && pageRangeInput.value.trim()) {
+                formData.append('page_range', pageRangeInput.value);
+            }
+
+            // Add API keys (including text inputs for GCP project, Azure endpoint)
+            document.querySelectorAll('#api-keys input').forEach(input => {
+                if (input.value.trim()) {
+                    formData.append(input.name, input.value);
+                }
+            });
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Error: ' + data.error);
+                    return;
+                }
+                currentSessionId = data.session_id;
+                showProgressSection();
+                startPolling();
+            })
+            .catch(error => {
+                alert('Error: ' + error.message);
+            });
+        }
+
+        function showProgressSection() {
+            uploadSection.style.display = 'none';
+            progressSection.style.display = 'block';
+            resultsSection.style.display = 'none';
+        }
+
+        function showResultsSection() {
+            uploadSection.style.display = 'none';
+            progressSection.style.display = 'none';
+            resultsSection.style.display = 'block';
+        }
+
+        function startPolling() {
+            processingInterval = setInterval(() => {
+                fetch(`/status/${currentSessionId}`)
+                .then(response => response.json())
+                .then(data => {
+                    updateProgress(data);
+                    if (data.status === 'completed') {
+                        clearInterval(processingInterval);
+                        loadResults();
+                    } else if (data.status === 'error') {
+                        clearInterval(processingInterval);
+                        alert('Processing failed: ' + data.error);
+                        resetToUpload();
+                    }
+                })
+                .catch(error => {
+                    console.error('Polling error:', error);
+                });
+            }, 1000);
+        }
+
+        function updateProgress(data) {
+            progressBar.style.width = data.progress + '%';
+            progressBar.textContent = data.progress + '%';
+
+            const statusMap = {
+                'starting': 'Initializing...',
+                'analyzing': 'Analyzing PDF...',
+                'comparing': 'Comparing results...',
+                'exporting': 'Exporting data...',
+                'completed': 'Processing complete!'
+            };
+
+            statusText.textContent = statusMap[data.status] || data.status;
+
+            if (data.current_method) {
+                currentMethodText.textContent = `Processing with: ${data.current_method}`;
+            }
+        }
+
+        function loadResults() {
+            fetch(`/results/${currentSessionId}`)
+            .then(response => response.json())
+            .then(data => {
+                currentResults = data;
+                populateResults(data);
+                showResultsSection();
+            })
+            .catch(error => {
+                alert('Error loading results: ' + error.message);
+            });
+        }
+
+        function populateResults(data) {
+            // Populate overview tab
+            populateOverview(data);
+
+            // Populate method selectors
+            populateMethodSelectors(data.results);
+
+            // Set up event listeners for method selection
+            setupMethodSelectors();
+
+            // Load comparison report
+            loadComparisonReport();
+        }
+
+        function populateOverview(data) {
+            // Processing summary
+            const summary = document.getElementById('processing-summary');
+            summary.innerHTML = `
+                <p><strong>Document:</strong> ${data.pdf_info?.file_name || 'Unknown'}</p>
+                <p><strong>Pages:</strong> ${data.pdf_info?.page_count || 'Unknown'}</p>
+                <p><strong>Methods Used:</strong> ${Object.keys(data.results).length}</p>
+                <p><strong>Processing Time:</strong> ${calculateTotalTime(data.results)}</p>
+            `;
+
+            // Method rankings
+            const rankings = document.getElementById('method-rankings');
+            if (data.comparison && data.comparison.method_rankings) {
+                let rankingHtml = '<ol>';
+                data.comparison.method_rankings.forEach((method, index) => {
+                    const emoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '📊';
+                    rankingHtml += `<li>${emoji} ${method}</li>`;
+                });
+                rankingHtml += '</ol>';
+                rankings.innerHTML = rankingHtml;
+            } else {
+                rankings.innerHTML = '<p>Single method analysis</p>';
+            }
+
+            // Metrics table
+            populateMetricsTable(data.results);
+        }
+
+        function populateMetricsTable(results) {
+            const tbody = document.getElementById('metrics-tbody');
+            tbody.innerHTML = '';
+
+            Object.entries(results).forEach(([method, result]) => {
+                const row = document.createElement('tr');
+                const qualityScore = result.quality_score || 0;
+                const qualityClass = qualityScore >= 0.8 ? 'success' : qualityScore >= 0.6 ? 'warning' : 'danger';
+
+                row.innerHTML = `
+                    <td><span class="badge bg-${qualityClass}">${method}</span></td>
+                    <td>${qualityScore.toFixed(3)}</td>
+                    <td>${result.tables?.length || 0}</td>
+                    <td>${result.text_blocks?.length || 0}</td>
+                    <td>${(result.processing_time || 0).toFixed(3)}s</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary" onclick="downloadResult('${method}', 'json')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function populateMethodSelectors(results) {
+            const methods = Object.keys(results);
+
+            ['table-method-select', 'text-method-select', 'json-method-select'].forEach(selectId => {
+                const select = document.getElementById(selectId);
+                select.innerHTML = '';
+                methods.forEach(method => {
+                    const option = document.createElement('option');
+                    option.value = method;
+                    option.textContent = method;
+                    select.appendChild(option);
+                });
+            });
+        }
+
+        function setupMethodSelectors() {
+            document.getElementById('table-method-select').addEventListener('change', (e) => {
+                displayTables(e.target.value);
+            });
+
+            document.getElementById('text-method-select').addEventListener('change', (e) => {
+                displayTextBlocks(e.target.value);
+            });
+
+            document.getElementById('json-method-select').addEventListener('change', (e) => {
+                displayJsonData(e.target.value);
+            });
+
+            // Load first method by default
+            const firstMethod = Object.keys(currentResults.results)[0];
+            if (firstMethod) {
+                displayTables(firstMethod);
+                displayTextBlocks(firstMethod);
+                displayJsonData(firstMethod);
+            }
+        }
+
+        function displayTables(method) {
+            const result = currentResults.results[method];
+            const container = document.getElementById('tables-content');
+
+            if (!result.tables || result.tables.length === 0) {
+                container.innerHTML = '<p class="text-muted">No tables found</p>';
+                return;
+            }
+
+            let html = '';
+            result.tables.forEach((table, index) => {
+                html += `<h6>Table ${index + 1}</h6>`;
+                html += '<div class="table-responsive mb-3">';
+                html += '<table class="table table-sm table-bordered">';
+
+                // Create table from cells
+                const cells = table.cells || [];
+                if (cells.length === 0) {
+                    html += '<tr><td>No data</td></tr>';
+                } else {
+                    const maxRow = Math.max(...cells.map(c => c.row_idx)) + 1;
+                    const maxCol = Math.max(...cells.map(c => c.col_idx)) + 1;
+
+                    for (let row = 0; row < maxRow; row++) {
+                        html += '<tr>';
+                        for (let col = 0; col < maxCol; col++) {
+                            const cell = cells.find(c => c.row_idx === row && c.col_idx === col);
+                            const cellText = cell ? cell.raw_text : '';
+                            const isHeader = cell ? cell.is_header : false;
+                            html += `<${isHeader ? 'th' : 'td'}>${cellText}</${isHeader ? 'th' : 'td'}>`;
+                        }
+                        html += '</tr>';
+                    }
+                }
+
+                html += '</table></div>';
+            });
+
+            container.innerHTML = html;
+        }
+
+        function displayTextBlocks(method) {
+            const result = currentResults.results[method];
+            const container = document.getElementById('text-content');
+
+            if (!result.text_blocks || result.text_blocks.length === 0) {
+                container.innerHTML = '<p class="text-muted">No text blocks found</p>';
+                return;
+            }
+
+            let html = '';
+            result.text_blocks.forEach((block, index) => {
+                html += `
+                    <div class="card mb-2">
+                        <div class="card-header">
+                            <small>Block ${index + 1} - Page ${block.provenance?.page || 'Unknown'}</small>
+                        </div>
+                        <div class="card-body">
+                            <p>${block.text}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function displayJsonData(method) {
+            const result = currentResults.results[method];
+            const container = document.getElementById('json-content');
+            container.textContent = JSON.stringify(result, null, 2);
+        }
+
+        function calculateTotalTime(results) {
+            const total = Object.values(results).reduce((sum, result) => {
+                return sum + (result.processing_time || 0);
+            }, 0);
+            return total.toFixed(2) + 's';
+        }
+
+        function loadComparisonReport() {
+            fetch(`/report/${currentSessionId}`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('report-content').innerHTML = html;
+            })
+            .catch(error => {
+                document.getElementById('report-content').innerHTML = '<p class="text-danger">Error loading report: ' + error.message + '</p>';
+            });
+        }
+
+        function downloadResult(method, format) {
+            window.open(`/download/${currentSessionId}/${method}/${format}`, '_blank');
+        }
+
+        function resetToUpload() {
+            uploadSection.style.display = 'block';
+            progressSection.style.display = 'none';
+            resultsSection.style.display = 'none';
+            currentSessionId = null;
+            currentResults = null;
+        }
+
+        // New analysis button
+        document.getElementById('new-analysis').addEventListener('click', resetToUpload);
+
+        // Download buttons
+        document.getElementById('download-tables').addEventListener('click', () => {
+            const method = document.getElementById('table-method-select').value;
+            downloadResult(method, 'csv');
+        });
+
+        document.getElementById('download-text').addEventListener('click', () => {
+            const method = document.getElementById('text-method-select').value;
+            downloadResult(method, 'jsonl');
+        });
+
+        document.getElementById('download-json').addEventListener('click', () => {
+            const method = document.getElementById('json-method-select').value;
+            downloadResult(method, 'json');
+        });
+
+        // API key monitoring for method availability
+        function updateMethodAvailability() {
+            // Check API key requirements for each method
+            const methodRequirements = {
+                'textract': () => {
+                    const accessKey = document.querySelector('input[name="aws_access_key"]')?.value;
+                    const secretKey = document.querySelector('input[name="aws_secret_key"]')?.value;
+                    return accessKey && secretKey;
+                },
+                'docai': () => {
+                    const projectId = document.querySelector('input[name="gcp_project_id"]')?.value;
+                    const apiKey = document.querySelector('input[name="google_api_key"]')?.value;
+                    return projectId && apiKey;
+                },
+                'azure': () => {
+                    const endpoint = document.querySelector('input[name="azure_endpoint"]')?.value;
+                    const apiKey = document.querySelector('input[name="azure_key"]')?.value;
+                    return endpoint && apiKey;
+                },
+                'llm-openai': () => document.querySelector('input[name="openai_api_key"]')?.value,
+                'llm-anthropic': () => document.querySelector('input[name="anthropic_api_key"]')?.value,
+                'llm-google': () => document.querySelector('input[name="google_api_key"]')?.value
+            };
+
+            document.querySelectorAll('.method-card').forEach(card => {
+                const methodId = card.dataset.method;
+                const checkbox = card.querySelector('input[type="checkbox"]');
+                const availabilityStatus = card.querySelector('.availability-status');
+                const availabilityNote = card.querySelector('.availability-note');
+
+                if (methodRequirements[methodId] && methodRequirements[methodId]()) {
+                    card.classList.remove('disabled');
+                    checkbox.disabled = false;
+                    availabilityStatus.innerHTML = '<i class="fas fa-check-circle text-success"></i>';
+                    availabilityNote.classList.add('d-none');
+                    card.setAttribute('title', 'Available with provided credentials');
+                } else if (methodRequirements[methodId]) {
+                    // Method requires API keys but they're not provided
+                    card.classList.add('disabled');
+                    checkbox.disabled = true;
+                    checkbox.checked = false;
+                    card.classList.remove('selected');
+                    availabilityStatus.innerHTML = '<i class="fas fa-exclamation-triangle text-warning"></i>';
+                    availabilityNote.classList.remove('d-none');
+                }
+            });
+
+            updateProcessButton();
+        }
+
+        // Monitor API key inputs (both password and text inputs)
+        document.querySelectorAll('#api-keys input').forEach(input => {
+            input.addEventListener('input', updateMethodAvailability);
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkMethodAvailability();
+            updateProcessButton();
+        });
+    </script>
+</body>
+</html>
