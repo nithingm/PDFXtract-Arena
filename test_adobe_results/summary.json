@@ -1,0 +1,9 @@
+{
+  "total_pdfs": 1,
+  "successful_pdfs": 1,
+  "methods_used": [
+    "adobe"
+  ],
+  "output_directory": "test_adobe_results",
+  "processing_time": {}
+}

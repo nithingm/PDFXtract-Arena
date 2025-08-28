@@ -4,6 +4,7 @@ Command-line interface for PDFX-Bench.
 
 import argparse
 import logging
+import os
 import sys
 from pathlib import Path
 from typing import List, Optional, Dict, Any
@@ -285,7 +286,17 @@ def create_adapter(method: str, **kwargs) -> Any:
     elif method == 'adobe':
         if not ADOBE_AVAILABLE:
             raise RuntimeError("Adobe PDF Services SDK not installed. Install with: pip install pdfservices-sdk")
-        return AdobeExtractAdapter(credentials_file=kwargs.get('adobe_cred_file'))
+
+        # Pass Adobe credentials directly to adapter
+        adobe_client_id = kwargs.get('adobe_client_id')
+        adobe_client_secret = kwargs.get('adobe_client_secret')
+
+        # Use provided credentials if available, otherwise adapter will use environment variables
+        return AdobeExtractAdapter(
+            credentials_file=kwargs.get('adobe_cred_file'),
+            client_id=adobe_client_id if adobe_client_id else None,
+            client_secret=adobe_client_secret if adobe_client_secret else None
+        )
     elif method == 'textract':
         if not TEXTRACT_AVAILABLE:
             raise RuntimeError("AWS boto3 not installed. Install with: pip install boto3")

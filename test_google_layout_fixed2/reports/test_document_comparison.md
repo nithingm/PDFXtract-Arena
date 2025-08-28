@@ -1,7 +1,7 @@
 # PDFX-Bench Extraction Comparison Report
 
      **Document:** `test_document.pdf`
-     **Generated:** 2025-08-28 01:37:47
+     **Generated:** 2025-08-28 01:35:26
 
 ## 🎯 Executive Summary
 

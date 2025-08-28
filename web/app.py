@@ -13,6 +13,10 @@ from datetime import datetime
 from typing import Dict, List, Any, Optional
 import threading
 import time
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 from flask import Flask, render_template, request, jsonify, send_file, session
 from werkzeug.utils import secure_filename
@@ -33,14 +37,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 # Import dependency checker
 sys.path.insert(0, str(Path(__file__).parent.parent / 'scripts'))
 
-# Update PATH to include common Tesseract and Poppler locations
-common_paths = [
-    r"C:\Program Files\Tesseract-OCR",
-    r"C:\poppler\poppler-23.11.0\Library\bin",
-    r"C:\poppler\Library\bin"
-]
-for path in common_paths:
-    if os.path.exists(path) and path not in os.environ.get('PATH', ''):
+# Update PATH to include Tesseract and Poppler locations from environment variables
+tesseract_path = os.getenv('TESSERACT_CMD')
+poppler_path = os.getenv('POPPLER_PATH')
+
+# Add paths to environment if they exist and aren't already in PATH
+for path in [tesseract_path, poppler_path]:
+    if path and os.path.exists(path) and path not in os.environ.get('PATH', ''):
         os.environ['PATH'] = os.environ.get('PATH', '') + os.pathsep + path
 
 try:
@@ -71,6 +74,9 @@ def allowed_file(filename):
 
 def get_available_methods():
     """Get list of available extraction methods."""
+    # Check if Adobe credentials are available from environment
+    adobe_available = bool(os.getenv('ADOBE_CLIENT_ID') and os.getenv('ADOBE_CLIENT_SECRET'))
+
     methods = [
         {'id': 'pdfplumber', 'name': 'PDFplumber', 'description': 'Fast text and basic table extraction', 'type': 'local'},
         {'id': 'camelot-lattice', 'name': 'Camelot Lattice', 'description': 'Tables with visible borders', 'type': 'local'},
@@ -78,6 +84,7 @@ def get_available_methods():
         {'id': 'tabula', 'name': 'Tabula', 'description': 'Academic table extraction', 'type': 'local'},
         {'id': 'poppler', 'name': 'Poppler', 'description': 'PDF utilities for text extraction', 'type': 'local'},
         {'id': 'tesseract', 'name': 'Tesseract OCR', 'description': 'OCR for scanned PDFs', 'type': 'local'},
+        {'id': 'adobe', 'name': 'Adobe PDF Extract', 'description': 'Advanced AI-powered text and table extraction', 'type': 'cloud', 'env_available': adobe_available},
         {'id': 'textract', 'name': 'AWS Textract', 'description': 'Cloud OCR and form extraction', 'type': 'cloud'},
         {'id': 'google-ocr', 'name': 'Google Document AI (OCR)', 'description': 'Google cloud text extraction', 'type': 'cloud'},
         {'id': 'google-form', 'name': 'Google Document AI (Form Parser)', 'description': 'Google cloud form and table extraction', 'type': 'cloud'},
@@ -144,6 +151,13 @@ def get_available_methods():
             method['available'] = azure_available
             if not azure_available:
                 method['reason'] = 'Requires Azure Endpoint and API Key'
+
+    # Check Adobe availability from environment variables
+    for method in methods:
+        if method['id'] == 'adobe':
+            method['available'] = adobe_available
+            if not adobe_available:
+                method['reason'] = 'Requires Adobe Client ID and Client Secret'
 
     # Check Google availability from environment variables
     google_project_id = os.getenv('GCP_PROJECT_ID')
@@ -258,9 +272,17 @@ def process_pdf_async(session_id: str, pdf_path: Path, methods: List[str], optio
         else:
             comparison_report = None
 
+        # Calculate quality scores for each result
+        from pdfx_bench.scoring import QualityScorer
+        scorer = QualityScorer()
+
         # Convert results to serializable format
         serializable_results = {}
         for method, result in results.items():
+            # Calculate quality score for this result
+            quality_data = scorer.score_extraction_result(result)
+            quality_score = quality_data.get('overall_score', 0.0)
+
             serializable_results[method] = {
                 'id': result.document.id,
                 'file_name': result.document.file_name,
@@ -268,6 +290,7 @@ def process_pdf_async(session_id: str, pdf_path: Path, methods: List[str], optio
                 'processing_time': result.processing_time,
                 'success': result.success,
                 'error_message': result.error_message,
+                'quality_score': quality_score,
                 'tables': [
                     {
                         'table_id': table.table_id,
@@ -346,7 +369,9 @@ def process_pdf_async(session_id: str, pdf_path: Path, methods: List[str], optio
 def index():
     """Main page."""
     methods = get_available_methods()
-    return render_template('index.html', methods=methods)
+    # Check if Adobe credentials are available from environment
+    adobe_env_available = bool(os.getenv('ADOBE_CLIENT_ID') and os.getenv('ADOBE_CLIENT_SECRET'))
+    return render_template('index.html', methods=methods, adobe_env_available=adobe_env_available)
 
 @app.route('/api/methods')
 def api_methods():
@@ -392,9 +417,10 @@ def upload_file():
     }
     
     # Add API keys if provided
-    for key in ['aws_access_key', 'aws_secret_key', 'gcp_project_id', 'gcp_processor_id_ocr',
+    for key in ['aws_access_key', 'aws_secret_key', 'google_application_credentials', 'gcp_project_id', 'gcp_processor_id_ocr',
                 'gcp_processor_id_form', 'gcp_processor_id_layout', 'gcp_location',
-                'azure_endpoint', 'azure_key', 'openai_api_key', 'anthropic_api_key', 'google_api_key']:
+                'azure_endpoint', 'azure_key', 'openai_api_key', 'anthropic_api_key', 'google_api_key',
+                'adobe_client_id', 'adobe_client_secret']:
         value = request.form.get(key)
         if value:
             options[key] = value

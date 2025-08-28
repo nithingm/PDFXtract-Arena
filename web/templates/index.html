@@ -218,8 +218,24 @@
                                         <input type="password" class="form-control form-control-sm" name="aws_secret_key" placeholder="...">
                                     </div>
                                     <div class="mb-2">
+                                        <label class="form-label">Google Application Credentials (JSON file path)</label>
+                                        <input type="text" class="form-control form-control-sm" name="google_application_credentials" placeholder="C:\path\to\credentials.json">
+                                    </div>
+                                    <div class="mb-2">
                                         <label class="form-label">Google Cloud Project ID</label>
                                         <input type="text" class="form-control form-control-sm" name="gcp_project_id" placeholder="my-project-123">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">GCP Processor ID (OCR)</label>
+                                        <input type="text" class="form-control form-control-sm" name="gcp_processor_id_ocr" placeholder="Enter OCR Processor ID">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">GCP Processor ID (Form Parser)</label>
+                                        <input type="text" class="form-control form-control-sm" name="gcp_processor_id_form" placeholder="Enter Form Parser Processor ID">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">GCP Processor ID (Layout Parser)</label>
+                                        <input type="text" class="form-control form-control-sm" name="gcp_processor_id_layout" placeholder="Enter Layout Parser Processor ID">
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label">Google Cloud Location</label>
@@ -232,6 +248,14 @@
                                     <div class="mb-2">
                                         <label class="form-label">Azure API Key</label>
                                         <input type="password" class="form-control form-control-sm" name="azure_key" placeholder="...">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">Adobe Client ID</label>
+                                        <input type="text" class="form-control form-control-sm" name="adobe_client_id" placeholder="Enter Adobe Client ID">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">Adobe Client Secret</label>
+                                        <input type="password" class="form-control form-control-sm" name="adobe_client_secret" placeholder="Enter Adobe Client Secret">
                                     </div>
                                 </div>
                             </div>
@@ -531,6 +555,9 @@
 
     <!-- Custom JavaScript -->
     <script>
+        // Adobe environment availability (passed from server)
+        window.adobeEnvAvailable = {{ adobe_env_available|tojson }};
+
         let currentSessionId = null;
         let processingInterval = null;
         let currentResults = null;
@@ -1111,7 +1138,20 @@
                 },
                 'llm-openai': () => document.querySelector('input[name="openai_api_key"]')?.value,
                 'llm-anthropic': () => document.querySelector('input[name="anthropic_api_key"]')?.value,
-                'llm-google': () => document.querySelector('input[name="google_api_key"]')?.value
+                'llm-google': () => document.querySelector('input[name="google_api_key"]')?.value,
+                'adobe': () => {
+                    // Check if credentials are provided via UI
+                    const clientId = document.querySelector('input[name="adobe_client_id"]')?.value;
+                    const clientSecret = document.querySelector('input[name="adobe_client_secret"]')?.value;
+
+                    // If UI credentials are provided, use them
+                    if (clientId && clientSecret) {
+                        return true;
+                    }
+
+                    // Check if environment variables are available (passed from server)
+                    return window.adobeEnvAvailable || false;
+                }
             };
 
             document.querySelectorAll('.method-card').forEach(card => {
@@ -1199,6 +1239,7 @@
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             checkMethodAvailability();
+            updateMethodAvailability(); // Also check client-side credential availability
             updateProcessButton();
         });
     </script>
