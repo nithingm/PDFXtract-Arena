@@ -1,0 +1,1956 @@
+{
+  "document": {
+    "id": "test_document",
+    "file_name": "test_document.pdf",
+    "page_count": 1,
+    "text_blocks": [
+      {
+        "text": "Test Document for OCR",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.68,
+            "y0": 0.5024,
+            "x1": 3.2197,
+            "y1": 0.7252
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 0,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.68,
+              0.5062,
+              3.2194,
+              0.5024,
+              3.2197,
+              0.7223,
+              0.6803,
+              0.7252
+            ]
+          }
+        }
+      },
+      {
+        "text": "This is a test document created for OCR functionality testing.",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6852,
+            "y0": 1.2401,
+            "x1": 5.1703,
+            "y1": 1.4418
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 1,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6859,
+              1.2401,
+              5.1703,
+              1.2437,
+              5.1696,
+              1.4418,
+              0.6852,
+              1.4253
+            ]
+          }
+        }
+      },
+      {
+        "text": "It contains various types of content including:",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6909,
+            "y0": 1.5169,
+            "x1": 4.0112,
+            "y1": 1.7143
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 2,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6914,
+              1.5169,
+              4.0112,
+              1.5252,
+              4.0107,
+              1.7143,
+              0.6909,
+              1.7055
+            ]
+          }
+        }
+      },
+      {
+        "text": "· Regular text paragraphs",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6927,
+            "y0": 1.8047,
+            "x1": 2.591,
+            "y1": 1.9891
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 3,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6928,
+              1.8047,
+              2.591,
+              1.8062,
+              2.5908,
+              1.9891,
+              0.6927,
+              1.9875
+            ]
+          }
+        }
+      },
+      {
+        "text": "· Numbered lists",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6952,
+            "y0": 2.0821,
+            "x1": 1.9146,
+            "y1": 2.2443
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 4,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6953,
+              2.0821,
+              1.9146,
+              2.0828,
+              1.9145,
+              2.2443,
+              0.6952,
+              2.2436
+            ]
+          }
+        }
+      },
+      {
+        "text": "· Tables with data",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6951,
+            "y0": 2.3641,
+            "x1": 2.0178,
+            "y1": 2.5273
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 5,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6952,
+              2.3641,
+              2.0178,
+              2.3654,
+              2.0177,
+              2.5273,
+              0.6951,
+              2.526
+            ]
+          }
+        }
+      },
+      {
+        "text": "· Different font sizes and styles",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6954,
+            "y0": 2.6356,
+            "x1": 2.9811,
+            "y1": 2.8193
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 6,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6958,
+              2.6356,
+              2.9811,
+              2.6406,
+              2.9808,
+              2.8193,
+              0.6954,
+              2.8143
+            ]
+          }
+        }
+      },
+      {
+        "text": "Sample Invoice Data:",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6882,
+            "y0": 3.1862,
+            "x1": 2.2769,
+            "y1": 3.3739
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 7,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6883,
+              3.1862,
+              2.2769,
+              3.1874,
+              2.2767,
+              3.3739,
+              0.6882,
+              3.3727
+            ]
+          }
+        }
+      },
+      {
+        "text": "Invoice Number: INV-2024-001",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6911,
+            "y0": 3.4595,
+            "x1": 2.9782,
+            "y1": 3.6425
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 8,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6911,
+              3.4642,
+              2.9778,
+              3.4595,
+              2.9782,
+              3.6378,
+              0.6915,
+              3.6425
+            ]
+          }
+        }
+      },
+      {
+        "text": "Date: August 27, 2024",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6912,
+            "y0": 3.7388,
+            "x1": 2.3546,
+            "y1": 3.9283
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 9,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6912,
+              3.7437,
+              2.3541,
+              3.7388,
+              2.3546,
+              3.9234,
+              0.6917,
+              3.9283
+            ]
+          }
+        }
+      },
+      {
+        "text": "Amount: $1,234.56",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6858,
+            "y0": 4.0236,
+            "x1": 2.1077,
+            "y1": 4.2035
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 10,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6858,
+              4.0258,
+              2.1074,
+              4.0236,
+              2.1077,
+              4.2013,
+              0.6861,
+              4.2035
+            ]
+          }
+        }
+      },
+      {
+        "text": "Tax: $123.46",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.687,
+            "y0": 4.2995,
+            "x1": 1.6705,
+            "y1": 4.473
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 11,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.687,
+              4.3015,
+              1.6701,
+              4.2995,
+              1.6705,
+              4.471,
+              0.6874,
+              4.473
+            ]
+          }
+        }
+      },
+      {
+        "text": "Total: $1,358.02",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6877,
+            "y0": 4.5759,
+            "x1": 1.9031,
+            "y1": 4.7562
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 12,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6878,
+              4.5759,
+              1.9031,
+              4.5766,
+              1.903,
+              4.7562,
+              0.6877,
+              4.7555
+            ]
+          }
+        }
+      },
+      {
+        "text": "Sample Table:",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6867,
+            "y0": 5.4104,
+            "x1": 1.8186,
+            "y1": 5.6002
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 13,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6867,
+              5.4118,
+              1.8184,
+              5.4104,
+              1.8186,
+              5.5988,
+              0.687,
+              5.6002
+            ]
+          }
+        }
+      },
+      {
+        "text": "Product",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6879,
+            "y0": 5.852,
+            "x1": 1.2278,
+            "y1": 5.9972
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 14,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6882,
+              5.852,
+              1.2278,
+              5.8532,
+              1.2275,
+              5.9972,
+              0.6879,
+              5.996
+            ]
+          }
+        }
+      },
+      {
+        "text": "Quantity",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 2.7725,
+            "y0": 5.8506,
+            "x1": 3.3444,
+            "y1": 6.015
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 15,
+            "model": "prebuilt-layout",
+            "polygon": [
+              2.7734,
+              5.8506,
+              3.3444,
+              5.855,
+              3.3432,
+              6.015,
+              2.7725,
+              6.0106
+            ]
+          }
+        }
+      },
+      {
+        "text": "Price",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 3.8814,
+            "y0": 5.8536,
+            "x1": 4.2319,
+            "y1": 5.9937
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 16,
+            "model": "prebuilt-layout",
+            "polygon": [
+              3.8824,
+              5.8536,
+              4.2319,
+              5.8562,
+              4.2309,
+              5.9937,
+              3.8814,
+              5.9912
+            ]
+          }
+        }
+      },
+      {
+        "text": "Total",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 4.9921,
+            "y0": 5.8516,
+            "x1": 5.337,
+            "y1": 5.9926
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 17,
+            "model": "prebuilt-layout",
+            "polygon": [
+              4.9922,
+              5.8516,
+              5.337,
+              5.852,
+              5.3369,
+              5.9926,
+              4.9921,
+              5.9922
+            ]
+          }
+        }
+      },
+      {
+        "text": "Widget A",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6872,
+            "y0": 6.1276,
+            "x1": 1.2614,
+            "y1": 6.2889
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 18,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6872,
+              6.1289,
+              1.261,
+              6.1276,
+              1.2614,
+              6.2877,
+              0.6876,
+              6.2889
+            ]
+          }
+        }
+      },
+      {
+        "text": "10",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 2.785,
+            "y0": 6.1332,
+            "x1": 2.9287,
+            "y1": 6.2647
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 19,
+            "model": "prebuilt-layout",
+            "polygon": [
+              2.7852,
+              6.1332,
+              2.9287,
+              6.1334,
+              2.9285,
+              6.2647,
+              2.785,
+              6.2644
+            ]
+          }
+        }
+      },
+      {
+        "text": "$25.00",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 3.883,
+            "y0": 6.1297,
+            "x1": 4.3137,
+            "y1": 6.2715
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 20,
+            "model": "prebuilt-layout",
+            "polygon": [
+              3.8831,
+              6.1297,
+              4.3137,
+              6.1299,
+              4.3137,
+              6.2715,
+              3.883,
+              6.2713
+            ]
+          }
+        }
+      },
+      {
+        "text": "$250.00",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 4.9933,
+            "y0": 6.1283,
+            "x1": 5.5031,
+            "y1": 6.2741
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 21,
+            "model": "prebuilt-layout",
+            "polygon": [
+              4.9933,
+              6.1298,
+              5.5025,
+              6.1283,
+              5.5031,
+              6.272,
+              4.9938,
+              6.2741
+            ]
+          }
+        }
+      },
+      {
+        "text": "Widget B",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6862,
+            "y0": 6.3371,
+            "x1": 1.259,
+            "y1": 6.4983
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 22,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6862,
+              6.3388,
+              1.2585,
+              6.3371,
+              1.259,
+              6.4965,
+              0.6867,
+              6.4983
+            ]
+          }
+        }
+      },
+      {
+        "text": "5",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 2.7733,
+            "y0": 6.3475,
+            "x1": 2.8552,
+            "y1": 6.4693
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 23,
+            "model": "prebuilt-layout",
+            "polygon": [
+              2.7741,
+              6.3475,
+              2.8552,
+              6.3481,
+              2.8543,
+              6.4693,
+              2.7733,
+              6.4687
+            ]
+          }
+        }
+      },
+      {
+        "text": "$45.00",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 3.8834,
+            "y0": 6.3388,
+            "x1": 4.3137,
+            "y1": 6.4826
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 24,
+            "model": "prebuilt-layout",
+            "polygon": [
+              3.8834,
+              6.3391,
+              4.3136,
+              6.3388,
+              4.3137,
+              6.4822,
+              3.8835,
+              6.4826
+            ]
+          }
+        }
+      },
+      {
+        "text": "$225.00",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 4.9935,
+            "y0": 6.3387,
+            "x1": 5.502,
+            "y1": 6.4838
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 25,
+            "model": "prebuilt-layout",
+            "polygon": [
+              4.9935,
+              6.3395,
+              5.5017,
+              6.3387,
+              5.502,
+              6.4825,
+              4.9938,
+              6.4838
+            ]
+          }
+        }
+      },
+      {
+        "text": "Widget C",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6886,
+            "y0": 6.5425,
+            "x1": 1.2655,
+            "y1": 6.7026
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 26,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6886,
+              6.5436,
+              1.2652,
+              6.5425,
+              1.2655,
+              6.7014,
+              0.6889,
+              6.7026
+            ]
+          }
+        }
+      },
+      {
+        "text": "3",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 2.7718,
+            "y0": 6.5537,
+            "x1": 2.8534,
+            "y1": 6.6744
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 27,
+            "model": "prebuilt-layout",
+            "polygon": [
+              2.7724,
+              6.5537,
+              2.8534,
+              6.5541,
+              2.8528,
+              6.6744,
+              2.7718,
+              6.674
+            ]
+          }
+        }
+      },
+      {
+        "text": "$75.00",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 3.8836,
+            "y0": 6.5436,
+            "x1": 4.3143,
+            "y1": 6.6894
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 28,
+            "model": "prebuilt-layout",
+            "polygon": [
+              3.8836,
+              6.5455,
+              4.3137,
+              6.5436,
+              4.3143,
+              6.6874,
+              3.8842,
+              6.6894
+            ]
+          }
+        }
+      },
+      {
+        "text": "$225.00",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 4.9943,
+            "y0": 6.5439,
+            "x1": 5.5011,
+            "y1": 6.6895
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 29,
+            "model": "prebuilt-layout",
+            "polygon": [
+              4.9943,
+              6.5459,
+              5.5006,
+              6.5439,
+              5.5011,
+              6.6875,
+              4.9949,
+              6.6895
+            ]
+          }
+        }
+      },
+      {
+        "text": "Subtotal",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6889,
+            "y0": 6.7552,
+            "x1": 1.2521,
+            "y1": 6.8974
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 30,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.689,
+              6.7552,
+              1.2521,
+              6.7555,
+              1.252,
+              6.8974,
+              0.6889,
+              6.897
+            ]
+          }
+        }
+      },
+      {
+        "text": "$700.00",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 4.9939,
+            "y0": 6.755,
+            "x1": 5.5007,
+            "y1": 6.9005
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 31,
+            "model": "prebuilt-layout",
+            "polygon": [
+              4.9939,
+              6.7562,
+              5.5004,
+              6.755,
+              5.5007,
+              6.8993,
+              4.9942,
+              6.9005
+            ]
+          }
+        }
+      },
+      {
+        "text": "Tax (10%)",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6865,
+            "y0": 6.9596,
+            "x1": 1.3398,
+            "y1": 7.1263
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 32,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6868,
+              6.9596,
+              1.3398,
+              6.9606,
+              1.3395,
+              7.1263,
+              0.6865,
+              7.1254
+            ]
+          }
+        }
+      },
+      {
+        "text": "$70.00",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 4.9932,
+            "y0": 6.9652,
+            "x1": 5.4241,
+            "y1": 7.1076
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 33,
+            "model": "prebuilt-layout",
+            "polygon": [
+              4.9933,
+              6.9652,
+              5.4241,
+              6.9653,
+              5.424,
+              7.1076,
+              4.9932,
+              7.1075
+            ]
+          }
+        }
+      },
+      {
+        "text": "Total",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6872,
+            "y0": 7.1705,
+            "x1": 1.0304,
+            "y1": 7.3103
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 34,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6881,
+              7.1705,
+              1.0304,
+              7.1727,
+              1.0295,
+              7.3103,
+              0.6872,
+              7.3081
+            ]
+          }
+        }
+      },
+      {
+        "text": "$770.00",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 4.9921,
+            "y0": 7.1677,
+            "x1": 5.5024,
+            "y1": 7.3146
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 35,
+            "model": "prebuilt-layout",
+            "polygon": [
+              4.9921,
+              7.169,
+              5.502,
+              7.1677,
+              5.5024,
+              7.3133,
+              4.9925,
+              7.3146
+            ]
+          }
+        }
+      },
+      {
+        "text": "Number Formats:",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6874,
+            "y0": 7.7737,
+            "x1": 2.0794,
+            "y1": 7.9435
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 36,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6878,
+              7.7737,
+              2.0794,
+              7.777,
+              2.079,
+              7.9435,
+              0.6874,
+              7.9402
+            ]
+          }
+        }
+      },
+      {
+        "text": "Currency: $1,234.56, €987.65, £543.21",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6893,
+            "y0": 8.1362,
+            "x1": 3.1045,
+            "y1": 8.2984
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 37,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6893,
+              8.1439,
+              3.1042,
+              8.1362,
+              3.1045,
+              8.2924,
+              0.6898,
+              8.2984
+            ]
+          }
+        }
+      },
+      {
+        "text": "Percentages: 15.5%, 100%, 0.25%",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6869,
+            "y0": 8.3408,
+            "x1": 2.8482,
+            "y1": 8.5071
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 38,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6869,
+              8.3467,
+              2.8478,
+              8.3408,
+              2.8482,
+              8.5013,
+              0.6874,
+              8.5071
+            ]
+          }
+        }
+      },
+      {
+        "text": "Dates: 2024-08-27, 08/27/2024, August 27, 2024",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6894,
+            "y0": 8.5548,
+            "x1": 3.7094,
+            "y1": 8.7132
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 39,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6894,
+              8.5565,
+              3.7094,
+              8.5548,
+              3.7094,
+              8.7115,
+              0.6895,
+              8.7132
+            ]
+          }
+        }
+      },
+      {
+        "text": "Phone: (555) 123-4567, +1-555-987-6543",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6862,
+            "y0": 8.7636,
+            "x1": 3.2714,
+            "y1": 8.924
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 40,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6862,
+              8.7688,
+              3.271,
+              8.7636,
+              3.2714,
+              8.9189,
+              0.6864,
+              8.924
+            ]
+          }
+        }
+      },
+      {
+        "text": "Decimals: 3.14159, 2.71828, 1.41421",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6891,
+            "y0": 8.9728,
+            "x1": 2.9941,
+            "y1": 9.1203
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 41,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6891,
+              8.9735,
+              2.9941,
+              8.9728,
+              2.9941,
+              9.1196,
+              0.6892,
+              9.1203
+            ]
+          }
+        }
+      },
+      {
+        "text": "Generated by PDFX-Bench OCR Test Suite",
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.6881,
+            "y0": 10.2042,
+            "x1": 2.8622,
+            "y1": 10.3328
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "line_index": 42,
+            "model": "prebuilt-layout",
+            "polygon": [
+              0.6881,
+              10.207,
+              2.862,
+              10.2042,
+              2.8622,
+              10.33,
+              0.6883,
+              10.3328
+            ]
+          }
+        }
+      }
+    ],
+    "tables": [
+      {
+        "cells": [
+          {
+            "raw_text": "Product",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "Product",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "Quantity",
+            "row_idx": 0,
+            "col_idx": 1,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "Quantity",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "Price",
+            "row_idx": 0,
+            "col_idx": 2,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "Price",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "Total",
+            "row_idx": 0,
+            "col_idx": 3,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "Total",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "Widget A",
+            "row_idx": 1,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "Widget A",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "10",
+            "row_idx": 1,
+            "col_idx": 1,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "10",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": 10.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$25.00",
+            "row_idx": 1,
+            "col_idx": 2,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "$25.00",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": 25.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$250.00",
+            "row_idx": 1,
+            "col_idx": 3,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "$250.00",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": 250.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "Widget B",
+            "row_idx": 2,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "Widget B",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "5",
+            "row_idx": 2,
+            "col_idx": 1,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "5",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": 5.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$45.00",
+            "row_idx": 2,
+            "col_idx": 2,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "$45.00",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": 45.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$225.00",
+            "row_idx": 2,
+            "col_idx": 3,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "$225.00",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": 225.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "Widget C",
+            "row_idx": 3,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "Widget C",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "3",
+            "row_idx": 3,
+            "col_idx": 1,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "3",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": 3.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$75.00",
+            "row_idx": 3,
+            "col_idx": 2,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "$75.00",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": 75.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$225.00",
+            "row_idx": 3,
+            "col_idx": 3,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "$225.00",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": 225.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "Subtotal",
+            "row_idx": 4,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "Subtotal",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "",
+            "row_idx": 4,
+            "col_idx": 1,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "",
+            "row_idx": 4,
+            "col_idx": 2,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$700.00",
+            "row_idx": 4,
+            "col_idx": 3,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "$700.00",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": 700.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "Tax (10%)",
+            "row_idx": 5,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "Tax (10%)",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": 10.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "",
+            "row_idx": 5,
+            "col_idx": 1,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "",
+            "row_idx": 5,
+            "col_idx": 2,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$70.00",
+            "row_idx": 5,
+            "col_idx": 3,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "$70.00",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": 70.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "Total",
+            "row_idx": 6,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "Total",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "",
+            "row_idx": 6,
+            "col_idx": 1,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "",
+            "row_idx": 6,
+            "col_idx": 2,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$770.00",
+            "row_idx": 6,
+            "col_idx": 3,
+            "is_header": false,
+            "provenance": {
+              "method": "azure-layout",
+              "page": 1,
+              "bbox": {
+                "x0": 0.0,
+                "y0": 0.0,
+                "x1": 800.0,
+                "y1": 600.0
+              },
+              "confidence": 1.0,
+              "raw_data": {
+                "cell_content": "$770.00",
+                "row_span": null,
+                "column_span": null,
+                "model": "prebuilt-layout"
+              }
+            },
+            "parsed_number": 770.0,
+            "parsed_date": null
+          }
+        ],
+        "table_id": "azure_layout_table_0",
+        "caption": null,
+        "provenance": {
+          "method": "azure-layout",
+          "page": 1,
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 800.0,
+            "y1": 600.0
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "table_index": 0,
+            "row_count": 7,
+            "column_count": 4,
+            "model": "prebuilt-layout"
+          }
+        }
+      }
+    ],
+    "key_values": [],
+    "extraction_metadata": {
+      "method": "azure-layout",
+      "model": "prebuilt-layout",
+      "endpoint": "https://pdfxtract-arena311.cognitiveservices.azure.com/",
+      "pages_processed": 1,
+      "total_lines": 43,
+      "total_tables": 1
+    }
+  },
+  "method": "azure-layout",
+  "success": true,
+  "error_message": null,
+  "processing_time": 2.680095672607422,
+  "total_text_blocks": 43,
+  "total_tables": 1,
+  "total_cells": 28,
+  "empty_cells": 6,
+  "avg_confidence": 1.0
+}

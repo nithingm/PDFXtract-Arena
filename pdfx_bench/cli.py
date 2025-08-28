@@ -253,7 +253,7 @@ def parse_methods(method_str: str) -> List[str]:
     # Validate methods
     valid_methods = {
         'pdfplumber', 'camelot-lattice', 'camelot-stream', 'tabula', 'poppler', 'tesseract',
-        'adobe', 'textract', 'docai', 'azure-read', 'azure-layout',
+        'adobe', 'textract', 'google-ocr', 'google-form', 'google-layout', 'azure-read', 'azure-layout',
         'llm-openai', 'llm-anthropic', 'llm-google'
     }
     
@@ -290,11 +290,31 @@ def create_adapter(method: str, **kwargs) -> Any:
         if not TEXTRACT_AVAILABLE:
             raise RuntimeError("AWS boto3 not installed. Install with: pip install boto3")
         return TextractAdapter(aws_profile=kwargs.get('aws_profile'))
-    elif method == 'docai':
+    elif method == 'google-ocr':
         try:
-            from .adapters.docai_adapter import DocumentAIAdapter
-            return DocumentAIAdapter(
-                processor_id=kwargs.get('gcp_processor_id'),
+            from .adapters.google_ocr_adapter import GoogleOCRAdapter
+            return GoogleOCRAdapter(
+                processor_id=kwargs.get('gcp_processor_id_ocr'),
+                location=kwargs.get('gcp_location', 'us'),
+                project_id=kwargs.get('gcp_project_id')
+            )
+        except ImportError:
+            raise RuntimeError("Google Document AI library not installed. Install with: pip install google-cloud-documentai")
+    elif method == 'google-form':
+        try:
+            from .adapters.google_form_adapter import GoogleFormAdapter
+            return GoogleFormAdapter(
+                processor_id=kwargs.get('gcp_processor_id_form'),
+                location=kwargs.get('gcp_location', 'us'),
+                project_id=kwargs.get('gcp_project_id')
+            )
+        except ImportError:
+            raise RuntimeError("Google Document AI library not installed. Install with: pip install google-cloud-documentai")
+    elif method == 'google-layout':
+        try:
+            from .adapters.google_layout_adapter import GoogleLayoutAdapter
+            return GoogleLayoutAdapter(
+                processor_id=kwargs.get('gcp_processor_id_layout'),
                 location=kwargs.get('gcp_location', 'us'),
                 project_id=kwargs.get('gcp_project_id')
             )

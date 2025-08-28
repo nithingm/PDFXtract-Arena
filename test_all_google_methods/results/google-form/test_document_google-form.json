@@ -1,0 +1,1283 @@
+{
+  "document": {
+    "id": "test_document",
+    "file_name": "test_document.pdf",
+    "page_count": 1,
+    "text_blocks": [
+      {
+        "text": "Test Document for OCR",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 143.0,
+            "y0": 108.0,
+            "x1": 662.0,
+            "y1": 145.0
+          },
+          "confidence": 0.9793568849563599,
+          "raw_data": {
+            "paragraph_index": 0,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "This is a test document created for OCR functionality testing.",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 144.0,
+            "y0": 258.0,
+            "x1": 1069.0,
+            "y1": 294.0
+          },
+          "confidence": 0.9857146143913269,
+          "raw_data": {
+            "paragraph_index": 1,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "It contains various types of content including:",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 145.0,
+            "y0": 317.0,
+            "x1": 829.0,
+            "y1": 354.0
+          },
+          "confidence": 0.984613835811615,
+          "raw_data": {
+            "paragraph_index": 2,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "• Regular text paragraphs",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 142.0,
+            "y0": 377.0,
+            "x1": 534.0,
+            "y1": 409.0
+          },
+          "confidence": 0.9556403756141663,
+          "raw_data": {
+            "paragraph_index": 3,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "• Numbered lists",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 151.0,
+            "y0": 435.0,
+            "x1": 393.0,
+            "y1": 461.0
+          },
+          "confidence": 0.9239798188209534,
+          "raw_data": {
+            "paragraph_index": 5,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "• Tables with data",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 142.0,
+            "y0": 492.0,
+            "x1": 417.0,
+            "y1": 517.0
+          },
+          "confidence": 0.94166100025177,
+          "raw_data": {
+            "paragraph_index": 6,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "• Different font sizes and styles",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 143.0,
+            "y0": 545.0,
+            "x1": 615.0,
+            "y1": 582.0
+          },
+          "confidence": 0.9641362428665161,
+          "raw_data": {
+            "paragraph_index": 7,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Sample Invoice Data:",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 143.0,
+            "y0": 658.0,
+            "x1": 468.0,
+            "y1": 694.0
+          },
+          "confidence": 0.9868233799934387,
+          "raw_data": {
+            "paragraph_index": 8,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Invoice Number: INV-2024-001",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 144.0,
+            "y0": 722.0,
+            "x1": 615.0,
+            "y1": 747.0
+          },
+          "confidence": 0.9846567511558533,
+          "raw_data": {
+            "paragraph_index": 9,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Date: August 27, 2024",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 145.0,
+            "y0": 780.0,
+            "x1": 485.0,
+            "y1": 809.0
+          },
+          "confidence": 0.9787202477455139,
+          "raw_data": {
+            "paragraph_index": 10,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Amount: $1,234.56",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 141.0,
+            "y0": 836.0,
+            "x1": 434.0,
+            "y1": 865.0
+          },
+          "confidence": 0.9637364745140076,
+          "raw_data": {
+            "paragraph_index": 11,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Tax: $123.46",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 145.0,
+            "y0": 895.0,
+            "x1": 344.0,
+            "y1": 920.0
+          },
+          "confidence": 0.9326508045196533,
+          "raw_data": {
+            "paragraph_index": 12,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Total: $1,358.02",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 144.0,
+            "y0": 949.0,
+            "x1": 392.0,
+            "y1": 980.0
+          },
+          "confidence": 0.9845058917999268,
+          "raw_data": {
+            "paragraph_index": 13,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Sample Table:",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 143.0,
+            "y0": 1118.0,
+            "x1": 374.0,
+            "y1": 1154.0
+          },
+          "confidence": 0.9743660688400269,
+          "raw_data": {
+            "paragraph_index": 14,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Product",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 144.0,
+            "y0": 1215.0,
+            "x1": 253.0,
+            "y1": 1234.0
+          },
+          "confidence": 0.9859380125999451,
+          "raw_data": {
+            "paragraph_index": 15,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Quantity",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 575.0,
+            "y0": 1215.0,
+            "x1": 691.0,
+            "y1": 1240.0
+          },
+          "confidence": 0.9848190546035767,
+          "raw_data": {
+            "paragraph_index": 16,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Price",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 804.0,
+            "y0": 1215.0,
+            "x1": 873.0,
+            "y1": 1234.0
+          },
+          "confidence": 0.9838101267814636,
+          "raw_data": {
+            "paragraph_index": 17,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Total",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 1034.0,
+            "y0": 1215.0,
+            "x1": 1102.0,
+            "y1": 1235.0
+          },
+          "confidence": 0.9828370809555054,
+          "raw_data": {
+            "paragraph_index": 18,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "10",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 576.0,
+            "y0": 1273.0,
+            "x1": 604.0,
+            "y1": 1292.0
+          },
+          "confidence": 0.9632150530815125,
+          "raw_data": {
+            "paragraph_index": 19,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "$25.00",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 804.0,
+            "y0": 1272.0,
+            "x1": 892.0,
+            "y1": 1294.0
+          },
+          "confidence": 0.9918698072433472,
+          "raw_data": {
+            "paragraph_index": 20,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "$250.00",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 1034.0,
+            "y0": 1272.0,
+            "x1": 1136.0,
+            "y1": 1294.0
+          },
+          "confidence": 0.9931507706642151,
+          "raw_data": {
+            "paragraph_index": 21,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Widget A Widget B",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 141.0,
+            "y0": 1270.0,
+            "x1": 261.0,
+            "y1": 1342.0
+          },
+          "confidence": 0.9821101427078247,
+          "raw_data": {
+            "paragraph_index": 22,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "$45.00",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 804.0,
+            "y0": 1315.0,
+            "x1": 890.0,
+            "y1": 1337.0
+          },
+          "confidence": 0.9937933683395386,
+          "raw_data": {
+            "paragraph_index": 23,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "$225.00",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 1034.0,
+            "y0": 1315.0,
+            "x1": 1136.0,
+            "y1": 1337.0
+          },
+          "confidence": 0.9910455942153931,
+          "raw_data": {
+            "paragraph_index": 24,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "53",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 572.0,
+            "y0": 1311.0,
+            "x1": 588.0,
+            "y1": 1379.0
+          },
+          "confidence": 0.9608531594276428,
+          "raw_data": {
+            "paragraph_index": 25,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Widget C",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 141.0,
+            "y0": 1357.0,
+            "x1": 260.0,
+            "y1": 1384.0
+          },
+          "confidence": 0.9747942686080933,
+          "raw_data": {
+            "paragraph_index": 26,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "$75.00",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 803.0,
+            "y0": 1358.0,
+            "x1": 891.0,
+            "y1": 1379.0
+          },
+          "confidence": 0.9914512634277344,
+          "raw_data": {
+            "paragraph_index": 27,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "$225.00",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 1034.0,
+            "y0": 1358.0,
+            "x1": 1137.0,
+            "y1": 1380.0
+          },
+          "confidence": 0.9896033406257629,
+          "raw_data": {
+            "paragraph_index": 28,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Subtotal",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 143.0,
+            "y0": 1401.0,
+            "x1": 258.0,
+            "y1": 1422.0
+          },
+          "confidence": 0.9838343262672424,
+          "raw_data": {
+            "paragraph_index": 29,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "$700.00",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 1034.0,
+            "y0": 1400.0,
+            "x1": 1137.0,
+            "y1": 1423.0
+          },
+          "confidence": 0.9919600486755371,
+          "raw_data": {
+            "paragraph_index": 30,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Tax (10%)",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 143.0,
+            "y0": 1441.0,
+            "x1": 279.0,
+            "y1": 1470.0
+          },
+          "confidence": 0.9710946679115295,
+          "raw_data": {
+            "paragraph_index": 31,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "$70.00",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 1034.0,
+            "y0": 1444.0,
+            "x1": 1121.0,
+            "y1": 1466.0
+          },
+          "confidence": 0.9906893968582153,
+          "raw_data": {
+            "paragraph_index": 32,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Total",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 144.0,
+            "y0": 1488.0,
+            "x1": 212.0,
+            "y1": 1508.0
+          },
+          "confidence": 0.9846528172492981,
+          "raw_data": {
+            "paragraph_index": 33,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "$770.00",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 1034.0,
+            "y0": 1486.0,
+            "x1": 1136.0,
+            "y1": 1509.0
+          },
+          "confidence": 0.9900508522987366,
+          "raw_data": {
+            "paragraph_index": 34,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Number Formats:",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 144.0,
+            "y0": 1612.0,
+            "x1": 429.0,
+            "y1": 1638.0
+          },
+          "confidence": 0.9749513268470764,
+          "raw_data": {
+            "paragraph_index": 35,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Currency: $1,234.56, €987.65, £543.21",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 143.0,
+            "y0": 1684.0,
+            "x1": 639.0,
+            "y1": 1714.0
+          },
+          "confidence": 0.975342333316803,
+          "raw_data": {
+            "paragraph_index": 36,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Percentages: 15.5%, 100%, 0.25%",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 144.0,
+            "y0": 1728.0,
+            "x1": 587.0,
+            "y1": 1757.0
+          },
+          "confidence": 0.9807901382446289,
+          "raw_data": {
+            "paragraph_index": 37,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Dates: 2024-08-27, 08/27/2024, August 27, 2024 Phone: (555) 123-4567, +1-555-987-6543",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 144.0,
+            "y0": 1774.0,
+            "x1": 767.0,
+            "y1": 1842.0
+          },
+          "confidence": 0.9808039665222168,
+          "raw_data": {
+            "paragraph_index": 38,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Decimals: 3.14159, 2.71828, 1.41421",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 144.0,
+            "y0": 1860.0,
+            "x1": 617.0,
+            "y1": 1884.0
+          },
+          "confidence": 0.9787119030952454,
+          "raw_data": {
+            "paragraph_index": 39,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "text": "Generated by PDFX-Bench OCR Test Suite",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 143.0,
+            "y0": 2114.0,
+            "x1": 591.0,
+            "y1": 2134.0
+          },
+          "confidence": 0.9803768396377563,
+          "raw_data": {
+            "paragraph_index": 40,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      }
+    ],
+    "tables": [
+      {
+        "cells": [
+          {
+            "raw_text": "Widget A",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "google-form",
+              "page": 1,
+              "bbox": {
+                "x0": 131.0,
+                "y0": 1260.0,
+                "x1": 518.0,
+                "y1": 1305.0
+              },
+              "confidence": 0.9850381016731262,
+              "raw_data": {
+                "table_index": 0,
+                "processor_type": "Form Parser",
+                "processor_id": "8606b159a38b6115"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "10",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "google-form",
+              "page": 1,
+              "bbox": {
+                "x0": 518.0,
+                "y0": 1260.0,
+                "x1": 768.0,
+                "y1": 1305.0
+              },
+              "confidence": 0.9694284796714783,
+              "raw_data": {
+                "table_index": 0,
+                "processor_type": "Form Parser",
+                "processor_id": "8606b159a38b6115"
+              }
+            },
+            "parsed_number": 10.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$25.00",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "google-form",
+              "page": 1,
+              "bbox": {
+                "x0": 768.0,
+                "y0": 1260.0,
+                "x1": 990.0,
+                "y1": 1305.0
+              },
+              "confidence": 0.9800251722335815,
+              "raw_data": {
+                "table_index": 0,
+                "processor_type": "Form Parser",
+                "processor_id": "8606b159a38b6115"
+              }
+            },
+            "parsed_number": 25.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$250.00",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "google-form",
+              "page": 1,
+              "bbox": {
+                "x0": 990.0,
+                "y0": 1260.0,
+                "x1": 1145.0,
+                "y1": 1305.0
+              },
+              "confidence": 0.9787049293518066,
+              "raw_data": {
+                "table_index": 0,
+                "processor_type": "Form Parser",
+                "processor_id": "8606b159a38b6115"
+              }
+            },
+            "parsed_number": 250.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "Widget B",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "google-form",
+              "page": 1,
+              "bbox": {
+                "x0": 131.0,
+                "y0": 1305.0,
+                "x1": 518.0,
+                "y1": 1349.0
+              },
+              "confidence": 0.9835389852523804,
+              "raw_data": {
+                "table_index": 0,
+                "processor_type": "Form Parser",
+                "processor_id": "8606b159a38b6115"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "53",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "google-form",
+              "page": 1,
+              "bbox": {
+                "x0": 518.0,
+                "y0": 1305.0,
+                "x1": 768.0,
+                "y1": 1349.0
+              },
+              "confidence": 0.9679293632507324,
+              "raw_data": {
+                "table_index": 0,
+                "processor_type": "Form Parser",
+                "processor_id": "8606b159a38b6115"
+              }
+            },
+            "parsed_number": 53.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$45.00",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "google-form",
+              "page": 1,
+              "bbox": {
+                "x0": 768.0,
+                "y0": 1305.0,
+                "x1": 990.0,
+                "y1": 1349.0
+              },
+              "confidence": 0.9785259962081909,
+              "raw_data": {
+                "table_index": 0,
+                "processor_type": "Form Parser",
+                "processor_id": "8606b159a38b6115"
+              }
+            },
+            "parsed_number": 45.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$225.00",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "google-form",
+              "page": 1,
+              "bbox": {
+                "x0": 990.0,
+                "y0": 1305.0,
+                "x1": 1145.0,
+                "y1": 1349.0
+              },
+              "confidence": 0.977205753326416,
+              "raw_data": {
+                "table_index": 0,
+                "processor_type": "Form Parser",
+                "processor_id": "8606b159a38b6115"
+              }
+            },
+            "parsed_number": 225.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "Widget C",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "google-form",
+              "page": 1,
+              "bbox": {
+                "x0": 131.0,
+                "y0": 1349.0,
+                "x1": 518.0,
+                "y1": 1390.0
+              },
+              "confidence": 0.9862167239189148,
+              "raw_data": {
+                "table_index": 0,
+                "processor_type": "Form Parser",
+                "processor_id": "8606b159a38b6115"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$75.00",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "google-form",
+              "page": 1,
+              "bbox": {
+                "x0": 768.0,
+                "y0": 1349.0,
+                "x1": 990.0,
+                "y1": 1390.0
+              },
+              "confidence": 0.9812037944793701,
+              "raw_data": {
+                "table_index": 0,
+                "processor_type": "Form Parser",
+                "processor_id": "8606b159a38b6115"
+              }
+            },
+            "parsed_number": 75.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$225.00",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "google-form",
+              "page": 1,
+              "bbox": {
+                "x0": 990.0,
+                "y0": 1349.0,
+                "x1": 1145.0,
+                "y1": 1390.0
+              },
+              "confidence": 0.9798835515975952,
+              "raw_data": {
+                "table_index": 0,
+                "processor_type": "Form Parser",
+                "processor_id": "8606b159a38b6115"
+              }
+            },
+            "parsed_number": 225.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "Subtotal",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "google-form",
+              "page": 1,
+              "bbox": {
+                "x0": 131.0,
+                "y0": 1390.0,
+                "x1": 518.0,
+                "y1": 1435.0
+              },
+              "confidence": 0.9711151123046875,
+              "raw_data": {
+                "table_index": 0,
+                "processor_type": "Form Parser",
+                "processor_id": "8606b159a38b6115"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$700.00",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "google-form",
+              "page": 1,
+              "bbox": {
+                "x0": 990.0,
+                "y0": 1390.0,
+                "x1": 1145.0,
+                "y1": 1435.0
+              },
+              "confidence": 0.9647819399833679,
+              "raw_data": {
+                "table_index": 0,
+                "processor_type": "Form Parser",
+                "processor_id": "8606b159a38b6115"
+              }
+            },
+            "parsed_number": 700.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "Tax (10%)",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "google-form",
+              "page": 1,
+              "bbox": {
+                "x0": 131.0,
+                "y0": 1435.0,
+                "x1": 518.0,
+                "y1": 1478.0
+              },
+              "confidence": 0.9780961275100708,
+              "raw_data": {
+                "table_index": 0,
+                "processor_type": "Form Parser",
+                "processor_id": "8606b159a38b6115"
+              }
+            },
+            "parsed_number": 10.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$70.00",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "google-form",
+              "page": 1,
+              "bbox": {
+                "x0": 990.0,
+                "y0": 1435.0,
+                "x1": 1145.0,
+                "y1": 1478.0
+              },
+              "confidence": 0.9717628955841064,
+              "raw_data": {
+                "table_index": 0,
+                "processor_type": "Form Parser",
+                "processor_id": "8606b159a38b6115"
+              }
+            },
+            "parsed_number": 70.0,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "Total",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "google-form",
+              "page": 1,
+              "bbox": {
+                "x0": 131.0,
+                "y0": 1478.0,
+                "x1": 518.0,
+                "y1": 1513.0
+              },
+              "confidence": 0.9516533017158508,
+              "raw_data": {
+                "table_index": 0,
+                "processor_type": "Form Parser",
+                "processor_id": "8606b159a38b6115"
+              }
+            },
+            "parsed_number": null,
+            "parsed_date": null
+          },
+          {
+            "raw_text": "$770.00",
+            "row_idx": 0,
+            "col_idx": 0,
+            "is_header": false,
+            "provenance": {
+              "method": "google-form",
+              "page": 1,
+              "bbox": {
+                "x0": 990.0,
+                "y0": 1478.0,
+                "x1": 1145.0,
+                "y1": 1513.0
+              },
+              "confidence": 0.9453201293945312,
+              "raw_data": {
+                "table_index": 0,
+                "processor_type": "Form Parser",
+                "processor_id": "8606b159a38b6115"
+              }
+            },
+            "parsed_number": 770.0,
+            "parsed_date": null
+          }
+        ],
+        "table_id": "google_form_table_0",
+        "caption": null,
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 1758.0,
+            "y1": 2275.0
+          },
+          "confidence": 1.0,
+          "raw_data": {
+            "table_index": 0,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      }
+    ],
+    "key_values": [
+      {
+        "key": "Total:",
+        "value": "$1,358.02",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 1758.0,
+            "y1": 2275.0
+          },
+          "confidence": 0.9057050347328186,
+          "raw_data": {
+            "field_index": 0,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "key": "Tax:",
+        "value": "$123.46",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 1758.0,
+            "y1": 2275.0
+          },
+          "confidence": 0.9026815295219421,
+          "raw_data": {
+            "field_index": 1,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      },
+      {
+        "key": "Amount:",
+        "value": "$1,234.56",
+        "provenance": {
+          "method": "google-form",
+          "page": 1,
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 1758.0,
+            "y1": 2275.0
+          },
+          "confidence": 0.9013057351112366,
+          "raw_data": {
+            "field_index": 2,
+            "processor_type": "Form Parser",
+            "processor_id": "8606b159a38b6115"
+          }
+        }
+      }
+    ],
+    "extraction_metadata": {
+      "method": "google-form",
+      "processor_type": "Form Parser",
+      "processor_id": "8606b159a38b6115",
+      "project_id": "airy-aria-470423-t4",
+      "location": "us",
+      "pages_processed": 1,
+      "total_paragraphs": 41,
+      "total_tables": 1,
+      "total_form_fields": 10
+    }
+  },
+  "method": "google-form",
+  "success": true,
+  "error_message": null,
+  "processing_time": 20.541890144348145,
+  "total_text_blocks": 40,
+  "total_tables": 1,
+  "total_cells": 17,
+  "empty_cells": 0,
+  "avg_confidence": 0.9730038476771996
+}

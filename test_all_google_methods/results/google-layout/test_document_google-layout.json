@@ -1,0 +1,29 @@
+{
+  "document": {
+    "id": "test_document",
+    "file_name": "test_document.pdf",
+    "page_count": 1,
+    "text_blocks": [],
+    "tables": [],
+    "key_values": [],
+    "extraction_metadata": {
+      "method": "google-layout",
+      "processor_type": "Layout Parser",
+      "processor_id": "6be1222c8a50a405",
+      "project_id": "airy-aria-470423-t4",
+      "location": "us",
+      "pages_processed": 0,
+      "total_paragraphs": 0,
+      "total_tables": 0
+    }
+  },
+  "method": "google-layout",
+  "success": true,
+  "error_message": null,
+  "processing_time": 1.437227725982666,
+  "total_text_blocks": 0,
+  "total_tables": 0,
+  "total_cells": 0,
+  "empty_cells": 0,
+  "avg_confidence": null
+}

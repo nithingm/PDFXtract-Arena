@@ -118,7 +118,7 @@ def normalize_confidence(confidence: Any, method: ExtractionMethod) -> Optional[
             # Textract uses 0-100 range
             if 0 <= conf_float <= 100:
                 return conf_float / 100.0
-        elif method == ExtractionMethod.GOOGLE_DOCAI:
+        elif method in [ExtractionMethod.GOOGLE_DOCAI_OCR, ExtractionMethod.GOOGLE_DOCAI_FORM, ExtractionMethod.GOOGLE_DOCAI_LAYOUT]:
             # Document AI uses 0-1 range
             if 0 <= conf_float <= 1:
                 return conf_float
@@ -243,7 +243,7 @@ def extract_bbox_from_raw_data(
                 bbox = raw_data['Geometry']['BoundingBox']
                 return create_bbox_from_dict(bbox)
         
-        elif method == ExtractionMethod.GOOGLE_DOCAI:
+        elif method in [ExtractionMethod.GOOGLE_DOCAI_OCR, ExtractionMethod.GOOGLE_DOCAI_FORM, ExtractionMethod.GOOGLE_DOCAI_LAYOUT]:
             # Document AI uses 'boundingPoly' or 'boundingBox'
             if 'boundingPoly' in raw_data:
                 # Convert polygon to bbox

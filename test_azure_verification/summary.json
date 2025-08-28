@@ -1,0 +1,10 @@
+{
+  "total_pdfs": 1,
+  "successful_pdfs": 1,
+  "methods_used": [
+    "azure-read",
+    "azure-layout"
+  ],
+  "output_directory": "test_azure_verification",
+  "processing_time": {}
+}

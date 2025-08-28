@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [
-    {name = "PDFX-Bench Team", email = "team@pdfx-bench.com"}
+    {name = "PDFXtract-Arena Team", email = "team@pdfxtract-arena.com"}
 ]
 keywords = ["pdf", "extraction", "benchmark", "tables", "text"]
 classifiers = [

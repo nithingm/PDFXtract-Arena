@@ -79,7 +79,9 @@ def get_available_methods():
         {'id': 'poppler', 'name': 'Poppler', 'description': 'PDF utilities for text extraction', 'type': 'local'},
         {'id': 'tesseract', 'name': 'Tesseract OCR', 'description': 'OCR for scanned PDFs', 'type': 'local'},
         {'id': 'textract', 'name': 'AWS Textract', 'description': 'Cloud OCR and form extraction', 'type': 'cloud'},
-        {'id': 'docai', 'name': 'Google Document AI', 'description': 'Advanced document understanding', 'type': 'cloud'},
+        {'id': 'google-ocr', 'name': 'Google Document AI (OCR)', 'description': 'Google cloud text extraction', 'type': 'cloud'},
+        {'id': 'google-form', 'name': 'Google Document AI (Form Parser)', 'description': 'Google cloud form and table extraction', 'type': 'cloud'},
+        {'id': 'google-layout', 'name': 'Google Document AI (Layout Parser)', 'description': 'Google cloud layout understanding', 'type': 'cloud'},
         {'id': 'azure-read', 'name': 'Azure Document Intelligence (Read)', 'description': 'Microsoft cloud text extraction', 'type': 'cloud'},
         {'id': 'azure-layout', 'name': 'Azure Document Intelligence (Layout)', 'description': 'Microsoft cloud text and table extraction', 'type': 'cloud'},
         {'id': 'llm-openai', 'name': 'OpenAI GPT-4 Vision', 'description': 'AI-powered extraction', 'type': 'llm'},
@@ -103,8 +105,8 @@ def get_available_methods():
             method['available'] = False
             if method_id == 'textract':
                 method['reason'] = 'Requires AWS Access Key and Secret Key'
-            elif method_id == 'docai':
-                method['reason'] = 'Requires Google Cloud Project ID and API Key'
+            elif method_id in ['google-ocr', 'google-form', 'google-layout']:
+                method['reason'] = 'Requires Google Cloud Project ID and Processor ID'
             elif method_id in ['azure-read', 'azure-layout']:
                 method['reason'] = 'Requires Azure Endpoint and API Key'
             elif method_id == 'llm-openai':
@@ -143,6 +145,33 @@ def get_available_methods():
             if not azure_available:
                 method['reason'] = 'Requires Azure Endpoint and API Key'
 
+    # Check Google availability from environment variables
+    google_project_id = os.getenv('GCP_PROJECT_ID')
+    google_credentials = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+    google_ocr_processor = os.getenv('GCP_PROCESSOR_ID_OCR')
+    google_form_processor = os.getenv('GCP_PROCESSOR_ID_FORM')
+    google_layout_processor = os.getenv('GCP_PROCESSOR_ID_LAYOUT')
+
+    # Debug logging
+    app.logger.debug(f"Google env vars - Project: {google_project_id}, Creds: {google_credentials}, OCR: {google_ocr_processor}, Form: {google_form_processor}, Layout: {google_layout_processor}")
+
+    for method in methods:
+        if method['id'] == 'google-ocr':
+            method['available'] = bool(google_project_id and google_credentials and google_ocr_processor)
+            app.logger.debug(f"Google OCR availability: {method['available']}")
+            if not method['available']:
+                method['reason'] = 'Requires Google Cloud Project ID, Credentials, and OCR Processor ID'
+        elif method['id'] == 'google-form':
+            method['available'] = bool(google_project_id and google_credentials and google_form_processor)
+            app.logger.debug(f"Google Form availability: {method['available']}")
+            if not method['available']:
+                method['reason'] = 'Requires Google Cloud Project ID, Credentials, and Form Processor ID'
+        elif method['id'] == 'google-layout':
+            method['available'] = bool(google_project_id and google_credentials and google_layout_processor)
+            app.logger.debug(f"Google Layout availability: {method['available']}")
+            if not method['available']:
+                method['reason'] = 'Requires Google Cloud Project ID, Credentials, and Layout Processor ID'
+
     return methods
 
 def process_pdf_async(session_id: str, pdf_path: Path, methods: List[str], options: Dict[str, Any]):
@@ -155,7 +184,8 @@ def process_pdf_async(session_id: str, pdf_path: Path, methods: List[str], optio
         'completed_methods': [],
         'results': {},
         'error': None,
-        'start_time': datetime.now().isoformat()
+        'start_time': datetime.now().isoformat(),
+        'pdf_path': str(pdf_path)  # Store PDF path for viewer
     }
 
     try:
@@ -362,8 +392,9 @@ def upload_file():
     }
     
     # Add API keys if provided
-    for key in ['aws_access_key', 'aws_secret_key', 'gcp_project_id', 'azure_endpoint', 'azure_key',
-                'openai_api_key', 'anthropic_api_key', 'google_api_key']:
+    for key in ['aws_access_key', 'aws_secret_key', 'gcp_project_id', 'gcp_processor_id_ocr',
+                'gcp_processor_id_form', 'gcp_processor_id_layout', 'gcp_location',
+                'azure_endpoint', 'azure_key', 'openai_api_key', 'anthropic_api_key', 'google_api_key']:
         value = request.form.get(key)
         if value:
             options[key] = value
@@ -493,20 +524,20 @@ def get_report(session_id):
 
         html = f"""
         <div class="report-content">
-            <h3>📊 PDFX-Bench Extraction Comparison Report</h3>
-            <p><strong>📄 Document:</strong> {status['pdf_info']['file_name']}</p>
-            <p><strong>🕒 Generated:</strong> {status['end_time']}</p>
+            <h3> PDFXtract-Arena Extraction Comparison Report</h3>
+            <p><strong> Document:</strong> {status['pdf_info']['file_name']}</p>
+            <p><strong> Generated:</strong> {status['end_time']}</p>
 
-            <h4>🎯 Executive Summary</h4>
+            <h4> Executive Summary</h4>
             <p>This report compares multiple PDF extraction methods using deterministic, no-hallucination algorithms.</p>
             <ul>
-                <li><strong>📈 Methods Tested:</strong> {len(results)}</li>
-                <li><strong>🏆 Best Overall:</strong> {comparison.get('best_overall', 'N/A')}</li>
-                <li><strong>📋 Best for Tables:</strong> {comparison.get('best_tables', 'N/A')}</li>
-                <li><strong>📝 Best for Text:</strong> {comparison.get('best_text', 'N/A')}</li>
+                <li><strong> Methods Tested:</strong> {len(results)}</li>
+                <li><strong> Best Overall:</strong> {comparison.get('best_overall', 'N/A')}</li>
+                <li><strong> Best for Tables:</strong> {comparison.get('best_tables', 'N/A')}</li>
+                <li><strong> Best for Text:</strong> {comparison.get('best_text', 'N/A')}</li>
             </ul>
 
-            <h4>📈 Performance Metrics</h4>
+            <h4> Performance Metrics</h4>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -535,7 +566,6 @@ def get_report(session_id):
 
             <h4>🔍 Key Findings</h4>
             <ul>
-                <li>✅ All extractions use deterministic methods - no data hallucination</li>
                 <li>✅ Processing times show efficiency of each method</li>
                 <li>✅ Multiple methods provide cross-validation opportunities</li>
                 <li>✅ Complete provenance tracking for audit trails</li>
@@ -544,6 +574,29 @@ def get_report(session_id):
         """
 
         return html
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/pdf/<session_id>')
+def get_pdf(session_id):
+    """Serve the original PDF file for viewing."""
+    try:
+        if session_id not in processing_status:
+            return jsonify({'error': 'Session not found'}), 404
+
+        status = processing_status[session_id]
+        pdf_path = status.get('pdf_path')
+
+        if not pdf_path or not os.path.exists(pdf_path):
+            return jsonify({'error': 'PDF file not found'}), 404
+
+        return send_file(
+            pdf_path,
+            mimetype='application/pdf',
+            as_attachment=False,  # Display in browser, not download
+            download_name=os.path.basename(pdf_path)
+        )
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
