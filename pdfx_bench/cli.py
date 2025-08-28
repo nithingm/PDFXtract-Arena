@@ -54,11 +54,7 @@ try:
 except ImportError:
     ADOBE_AVAILABLE = False
 
-try:
-    from .adapters.textract_adapter import TextractAdapter
-    TEXTRACT_AVAILABLE = True
-except ImportError:
-    TEXTRACT_AVAILABLE = False
+# TEXTRACT_AVAILABLE removed - using new Amazon Textract adapters instead
 
 # Set availability flags - imports will be done dynamically
 DOCAI_AVAILABLE = True
@@ -105,8 +101,8 @@ Examples:
         type=str,
         default='auto',
         help='Extraction method(s): auto, pdfplumber, camelot-lattice, camelot-stream, '
-             'tabula, poppler, tesseract, adobe, textract, docai, azure, llm-openai, llm-anthropic, llm-google '
-             '(comma-separated for multiple)'
+             'tabula, poppler, tesseract, adobe, amazon-detect-text, amazon-analyze-document, '
+             'docai, azure, llm-openai, llm-anthropic, llm-google (comma-separated for multiple)'
     )
     
     # Page selection
@@ -254,7 +250,8 @@ def parse_methods(method_str: str) -> List[str]:
     # Validate methods
     valid_methods = {
         'pdfplumber', 'camelot-lattice', 'camelot-stream', 'tabula', 'poppler', 'tesseract',
-        'adobe', 'textract', 'google-ocr', 'google-form', 'google-layout', 'azure-read', 'azure-layout',
+        'adobe', 'amazon-detect-text', 'amazon-analyze-document',
+        'google-ocr', 'google-form', 'google-layout', 'azure-read', 'azure-layout',
         'llm-openai', 'llm-anthropic', 'llm-google'
     }
     
@@ -297,10 +294,28 @@ def create_adapter(method: str, **kwargs) -> Any:
             client_id=adobe_client_id if adobe_client_id else None,
             client_secret=adobe_client_secret if adobe_client_secret else None
         )
-    elif method == 'textract':
-        if not TEXTRACT_AVAILABLE:
+    elif method == 'amazon-detect-text':
+        try:
+            from .adapters.amazon_textract_adapter import AmazonTextractAdapter, TextractMethod
+            return AmazonTextractAdapter(
+                method=TextractMethod.DETECT_TEXT,
+                aws_access_key_id=kwargs.get('aws_access_key_id'),
+                aws_secret_access_key=kwargs.get('aws_secret_access_key'),
+                aws_region=kwargs.get('aws_region')
+            )
+        except ImportError:
             raise RuntimeError("AWS boto3 not installed. Install with: pip install boto3")
-        return TextractAdapter(aws_profile=kwargs.get('aws_profile'))
+    elif method == 'amazon-analyze-document':
+        try:
+            from .adapters.amazon_textract_adapter import AmazonTextractAdapter, TextractMethod
+            return AmazonTextractAdapter(
+                method=TextractMethod.ANALYZE_DOCUMENT,
+                aws_access_key_id=kwargs.get('aws_access_key_id'),
+                aws_secret_access_key=kwargs.get('aws_secret_access_key'),
+                aws_region=kwargs.get('aws_region')
+            )
+        except ImportError:
+            raise RuntimeError("AWS boto3 not installed. Install with: pip install boto3")
     elif method == 'google-ocr':
         try:
             from .adapters.google_ocr_adapter import GoogleOCRAdapter
@@ -397,13 +412,23 @@ def extract_with_method(
         # Calculate processing time
         processing_time = time.time() - start_time
 
+        # Check if extraction was actually successful
+        has_error = (
+            hasattr(document, 'extraction_metadata') and
+            document.extraction_metadata and
+            'error' in document.extraction_metadata
+        )
+        success = not has_error
+        error_message = document.extraction_metadata.get('error') if has_error else None
+
         # Normalize result
         normalizer = DataNormalizer()
         result = normalizer.normalize_extraction_result(
             raw_result=document,
             method=method,
             processing_time=processing_time,
-            success=True
+            success=success,
+            error_message=error_message
         )
 
         return result

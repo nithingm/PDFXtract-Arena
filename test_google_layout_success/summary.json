@@ -1,9 +1,0 @@
-{
-  "total_pdfs": 1,
-  "successful_pdfs": 1,
-  "methods_used": [
-    "google-layout"
-  ],
-  "output_directory": "test_google_layout_success",
-  "processing_time": {}
-}

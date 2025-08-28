@@ -1,9 +1,0 @@
-{
-  "total_pdfs": 1,
-  "successful_pdfs": 1,
-  "methods_used": [
-    "azure-read"
-  ],
-  "output_directory": "test_azure_read_fixed",
-  "processing_time": {}
-}

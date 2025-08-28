@@ -1,9 +1,0 @@
-{
-  "total_pdfs": 1,
-  "successful_pdfs": 1,
-  "methods_used": [
-    "google-ocr"
-  ],
-  "output_directory": "test_google_fixed",
-  "processing_time": {}
-}

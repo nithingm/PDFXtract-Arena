@@ -4,41 +4,39 @@ This directory contains sample PDF files for testing PDFX-Bench extractors.
 
 ## Test Files
 
-### Digital PDFs
-- `invoice_digital.pdf` - Digital invoice with tables and text
-- `report_digital.pdf` - Multi-page report with complex tables
-- `form_digital.pdf` - Form with key-value pairs
+### Available PDFs
+- `Holley_ Scott - IC scope.pdf` - 4-page business document with text and tables
+- `Holley_ Scott - IC revised scope 6.12.25.pdf` - 10-page business document with complex layouts
 
-### Scanned PDFs  
-- `invoice_scanned.pdf` - Scanned invoice requiring OCR
-- `form_scanned.pdf` - Scanned form with handwritten elements
-
-### Complex Layouts
-- `financial_statement.pdf` - Financial statement with nested tables
-- `scientific_paper.pdf` - Academic paper with figures and tables
-- `multi_column.pdf` - Multi-column layout document
+### Document Characteristics
+- **Multi-page documents**: Test pagination and page-specific extraction
+- **Mixed content**: Text blocks, tables, and structured data
+- **Business format**: Real-world document structure and formatting
+- **Various complexity**: Different layout challenges for method comparison
 
 ## Usage
 
 Test with a single file:
 ```bash
-pdfx-bench --input samples/invoice_digital.pdf --method auto
+python -m pdfx_bench.cli --input "samples/Holley_ Scott - IC scope.pdf" --method auto
 ```
 
 Test with all samples:
 ```bash
-pdfx-bench --input samples/ --method pdfplumber,camelot-lattice,tabula
+python -m pdfx_bench.cli --input samples/ --method pdfplumber,camelot-lattice,tabula
 ```
 
 ## Expected Results
 
-Each sample PDF is designed to test specific extraction capabilities:
+Each sample PDF tests specific extraction capabilities:
 
-- **invoice_digital.pdf**: Should extract line items table, totals, and header information
-- **report_digital.pdf**: Should handle multi-page tables and preserve table structure
-- **form_digital.pdf**: Should extract key-value pairs and form fields
-- **invoice_scanned.pdf**: Requires OCR, may have lower confidence scores
-- **financial_statement.pdf**: Tests complex table layouts and numeric parsing
+- **Holley_ Scott - IC scope.pdf**: 4-page document with text blocks and tables, tests multi-page handling
+- **Holley_ Scott - IC revised scope 6.12.25.pdf**: 10-page document with complex layouts, tests pagination and large document processing
+
+### Multi-page Handling Notes
+- Amazon Textract methods will process only the first page due to synchronous API limitations
+- Other methods should process all pages
+- Quality scores may vary based on document complexity and method capabilities
 
 ## Adding New Samples
 

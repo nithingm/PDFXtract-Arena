@@ -164,7 +164,8 @@ def get_recommended_extractors(pdf_info: PDFInfo) -> List[str]:
     # Cloud extractors can handle both types
     extractors.extend([
         "adobe",
-        "textract", 
+        "amazon-detect-text",
+        "amazon-analyze-document",
         "docai",
         "azure"
     ])

@@ -47,7 +47,7 @@ class DataNormalizer:
                 document = Document(
                     id="unknown",
                     file_name="unknown",
-                    page_count=0
+                    page_count=1  # Must be at least 1 per schema requirement
                 )
             else:
                 document = raw_result

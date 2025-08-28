@@ -77,6 +77,9 @@ def get_available_methods():
     # Check if Adobe credentials are available from environment
     adobe_available = bool(os.getenv('ADOBE_CLIENT_ID') and os.getenv('ADOBE_CLIENT_SECRET'))
 
+    # Check if AWS credentials are available from environment
+    aws_available = bool(os.getenv('AWS_ACCESS_KEY_ID') and os.getenv('AWS_SECRET_ACCESS_KEY'))
+
     methods = [
         {'id': 'pdfplumber', 'name': 'PDFplumber', 'description': 'Fast text and basic table extraction', 'type': 'local'},
         {'id': 'camelot-lattice', 'name': 'Camelot Lattice', 'description': 'Tables with visible borders', 'type': 'local'},
@@ -85,7 +88,8 @@ def get_available_methods():
         {'id': 'poppler', 'name': 'Poppler', 'description': 'PDF utilities for text extraction', 'type': 'local'},
         {'id': 'tesseract', 'name': 'Tesseract OCR', 'description': 'OCR for scanned PDFs', 'type': 'local'},
         {'id': 'adobe', 'name': 'Adobe PDF Extract', 'description': 'Advanced AI-powered text and table extraction', 'type': 'cloud', 'env_available': adobe_available},
-        {'id': 'textract', 'name': 'AWS Textract', 'description': 'Cloud OCR and form extraction', 'type': 'cloud'},
+        {'id': 'amazon-detect-text', 'name': 'Amazon Textract (DetectDocumentText)', 'description': 'Basic OCR - extracts lines and words from documents', 'type': 'cloud', 'env_available': aws_available},
+        {'id': 'amazon-analyze-document', 'name': 'Amazon Textract (AnalyzeDocument)', 'description': 'Advanced extraction - forms, tables, signatures, and structure', 'type': 'cloud', 'env_available': aws_available},
         {'id': 'google-ocr', 'name': 'Google Document AI (OCR)', 'description': 'Google cloud text extraction', 'type': 'cloud'},
         {'id': 'google-form', 'name': 'Google Document AI (Form Parser)', 'description': 'Google cloud form and table extraction', 'type': 'cloud'},
         {'id': 'google-layout', 'name': 'Google Document AI (Layout Parser)', 'description': 'Google cloud layout understanding', 'type': 'cloud'},
@@ -109,10 +113,9 @@ def get_available_methods():
             method['reason'] = 'May require Java installation'
         # Cloud and LLM methods require API keys
         elif method['type'] in ['cloud', 'llm']:
-            method['available'] = False
-            if method_id == 'textract':
-                method['reason'] = 'Requires AWS Access Key and Secret Key'
-            elif method_id in ['google-ocr', 'google-form', 'google-layout']:
+            # Check if environment credentials are available
+            method['available'] = method.get('env_available', False)
+            if method_id in ['google-ocr', 'google-form', 'google-layout']:
                 method['reason'] = 'Requires Google Cloud Project ID and Processor ID'
             elif method_id in ['azure-read', 'azure-layout']:
                 method['reason'] = 'Requires Azure Endpoint and API Key'
@@ -122,6 +125,8 @@ def get_available_methods():
                 method['reason'] = 'Requires Anthropic API key'
             elif method_id == 'llm-google':
                 method['reason'] = 'Requires Google API key'
+            elif method_id in ['amazon-detect-text', 'amazon-analyze-document']:
+                method['reason'] = 'Requires AWS Access Key ID and Secret Access Key'
 
     # Check OCR dependencies availability dynamically
     if dependency_checker:
@@ -326,7 +331,8 @@ def process_pdf_async(session_id: str, pdf_path: Path, methods: List[str], optio
                             'confidence': kv.provenance.confidence if kv.provenance else None
                         }
                     } for kv in result.document.key_values
-                ]
+                ],
+                'extraction_metadata': result.document.extraction_metadata or {}
             }
 
         # Update final status
@@ -371,7 +377,9 @@ def index():
     methods = get_available_methods()
     # Check if Adobe credentials are available from environment
     adobe_env_available = bool(os.getenv('ADOBE_CLIENT_ID') and os.getenv('ADOBE_CLIENT_SECRET'))
-    return render_template('index.html', methods=methods, adobe_env_available=adobe_env_available)
+    # Check if AWS credentials are available from environment
+    aws_env_available = bool(os.getenv('AWS_ACCESS_KEY_ID') and os.getenv('AWS_SECRET_ACCESS_KEY'))
+    return render_template('index.html', methods=methods, adobe_env_available=adobe_env_available, aws_env_available=aws_env_available)
 
 @app.route('/api/methods')
 def api_methods():
@@ -416,14 +424,29 @@ def upload_file():
         'pages': None,  # TODO: Parse page ranges
     }
     
-    # Add API keys if provided
-    for key in ['aws_access_key', 'aws_secret_key', 'google_application_credentials', 'gcp_project_id', 'gcp_processor_id_ocr',
+    # Add API keys if provided, or use environment variables as defaults
+    for key in ['aws_access_key_id', 'aws_secret_access_key', 'aws_region',
+                'aws_access_key', 'aws_secret_key', 'google_application_credentials', 'gcp_project_id', 'gcp_processor_id_ocr',
                 'gcp_processor_id_form', 'gcp_processor_id_layout', 'gcp_location',
                 'azure_endpoint', 'azure_key', 'openai_api_key', 'anthropic_api_key', 'google_api_key',
                 'adobe_client_id', 'adobe_client_secret']:
         value = request.form.get(key)
         if value:
             options[key] = value
+
+    # Add environment variables as defaults for AWS credentials if not provided via UI
+    if not options.get('aws_access_key_id') and os.getenv('AWS_ACCESS_KEY_ID'):
+        options['aws_access_key_id'] = os.getenv('AWS_ACCESS_KEY_ID')
+    if not options.get('aws_secret_access_key') and os.getenv('AWS_SECRET_ACCESS_KEY'):
+        options['aws_secret_access_key'] = os.getenv('AWS_SECRET_ACCESS_KEY')
+    if not options.get('aws_region') and os.getenv('AWS_DEFAULT_REGION'):
+        options['aws_region'] = os.getenv('AWS_DEFAULT_REGION')
+
+    # Add environment variables as defaults for Adobe credentials if not provided via UI
+    if not options.get('adobe_client_id') and os.getenv('ADOBE_CLIENT_ID'):
+        options['adobe_client_id'] = os.getenv('ADOBE_CLIENT_ID')
+    if not options.get('adobe_client_secret') and os.getenv('ADOBE_CLIENT_SECRET'):
+        options['adobe_client_secret'] = os.getenv('ADOBE_CLIENT_SECRET')
     
     # Start processing in background
     thread = threading.Thread(
@@ -589,7 +612,40 @@ def get_report(session_id):
         html += """
                 </tbody>
             </table>
+        """
 
+        # Check for Amazon Textract multi-page warnings
+        amazon_warnings = []
+        for method, result in results.items():
+            if method.startswith('amazon-') and result.get('extraction_metadata', {}).get('multipage_warning'):
+                metadata = result['extraction_metadata']
+                amazon_warnings.append({
+                    'method': method,
+                    'warning': metadata['multipage_warning'],
+                    'original_pages': metadata.get('original_page_count', 'unknown'),
+                    'processed_pages': metadata.get('processed_pages', 1)
+                })
+
+        # Add warnings section if any Amazon methods had multi-page limitations
+        if amazon_warnings:
+            html += """
+            <div class="alert alert-warning mt-4">
+                <h4><i class="fas fa-exclamation-triangle"></i> ⚠️ Important Processing Limitations</h4>
+                <p><strong>Amazon Textract Multi-page PDF Limitations:</strong></p>
+                <ul>
+            """
+            for warning in amazon_warnings:
+                method_display = warning['method'].replace('amazon-', 'Amazon Textract ').replace('-', ' ').title()
+                html += f"""
+                    <li><strong>{method_display}:</strong> {warning['warning']}</li>
+                """
+            html += """
+                </ul>
+                <p><small><strong>Note:</strong> Amazon Textract's synchronous APIs (DetectDocumentText and AnalyzeDocument) only support single-page documents. For complete multi-page processing, consider using other extraction methods or Amazon Textract's asynchronous APIs.</small></p>
+            </div>
+            """
+
+        html += """
             <h4>🔍 Key Findings</h4>
             <ul>
                 <li>✅ Processing times show efficiency of each method</li>

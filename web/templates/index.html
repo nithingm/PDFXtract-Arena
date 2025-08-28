@@ -257,6 +257,18 @@
                                         <label class="form-label">Adobe Client Secret</label>
                                         <input type="password" class="form-control form-control-sm" name="adobe_client_secret" placeholder="Enter Adobe Client Secret">
                                     </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">AWS Access Key ID</label>
+                                        <input type="text" class="form-control form-control-sm" name="aws_access_key_id" placeholder="Enter AWS Access Key ID">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">AWS Secret Access Key</label>
+                                        <input type="password" class="form-control form-control-sm" name="aws_secret_access_key" placeholder="Enter AWS Secret Access Key">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">AWS Region</label>
+                                        <input type="text" class="form-control form-control-sm" name="aws_region" placeholder="e.g., us-east-1">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -557,6 +569,8 @@
     <script>
         // Adobe environment availability (passed from server)
         window.adobeEnvAvailable = {{ adobe_env_available|tojson }};
+        // AWS environment availability (passed from server)
+        window.awsEnvAvailable = {{ aws_env_available|tojson }};
 
         let currentSessionId = null;
         let processingInterval = null;
@@ -707,6 +721,9 @@
                 }
             });
 
+            // Update Select All button state after availability changes
+            updateSelectAllButton();
+
             // Initialize tooltips
             const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
             tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -714,12 +731,32 @@
             });
         }
 
-        // Method selection
-        document.getElementById('select-all').addEventListener('click', () => {
-            document.querySelectorAll('.method-checkbox:not(:disabled)').forEach(cb => {
-                cb.checked = true;
-                cb.closest('.method-card').classList.add('selected');
-            });
+        // Method selection with toggle functionality
+        document.getElementById('select-all').addEventListener('click', (e) => {
+            const button = e.target;
+            const availableCheckboxes = document.querySelectorAll('.method-checkbox:not(:disabled)');
+            const checkedCount = document.querySelectorAll('.method-checkbox:not(:disabled):checked').length;
+            const allSelected = checkedCount === availableCheckboxes.length && availableCheckboxes.length > 0;
+
+            if (allSelected) {
+                // Deselect all
+                availableCheckboxes.forEach(cb => {
+                    cb.checked = false;
+                    cb.closest('.method-card').classList.remove('selected');
+                });
+                button.textContent = 'Select All';
+                button.classList.remove('btn-primary');
+                button.classList.add('btn-outline-primary');
+            } else {
+                // Select all
+                availableCheckboxes.forEach(cb => {
+                    cb.checked = true;
+                    cb.closest('.method-card').classList.add('selected');
+                });
+                button.textContent = 'Deselect All';
+                button.classList.remove('btn-outline-primary');
+                button.classList.add('btn-primary');
+            }
             updateProcessButton();
         });
 
@@ -731,12 +768,47 @@
                 cb.closest('.method-card').classList.toggle('selected', cb.checked);
             });
             updateProcessButton();
+            updateSelectAllButton();
         });
+
+        function updateSelectAllButton() {
+            const selectAllButton = document.getElementById('select-all');
+            const availableCheckboxes = document.querySelectorAll('.method-checkbox:not(:disabled)');
+            const checkedCount = document.querySelectorAll('.method-checkbox:not(:disabled):checked').length;
+            const allSelected = checkedCount === availableCheckboxes.length && availableCheckboxes.length > 0;
+
+            if (allSelected) {
+                selectAllButton.textContent = 'Deselect All';
+                selectAllButton.classList.remove('btn-outline-primary');
+                selectAllButton.classList.add('btn-primary');
+            } else {
+                selectAllButton.textContent = 'Select All';
+                selectAllButton.classList.remove('btn-primary');
+                selectAllButton.classList.add('btn-outline-primary');
+            }
+        }
 
         document.querySelectorAll('.method-checkbox').forEach(checkbox => {
             checkbox.addEventListener('change', (e) => {
                 e.target.closest('.method-card').classList.toggle('selected', e.target.checked);
                 updateProcessButton();
+                updateSelectAllButton();
+            });
+        });
+
+        // Make entire method cards clickable
+        document.querySelectorAll('.method-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Don't trigger if clicking on the checkbox itself (to avoid double-toggle)
+                if (e.target.type === 'checkbox') return;
+
+                const checkbox = card.querySelector('.method-checkbox');
+                if (checkbox && !checkbox.disabled) {
+                    checkbox.checked = !checkbox.checked;
+                    card.classList.toggle('selected', checkbox.checked);
+                    updateProcessButton();
+                    updateSelectAllButton();
+                }
             });
         });
 
@@ -915,6 +987,36 @@
                 <p><strong>Processing Time:</strong> ${calculateTotalTime(data.results)}</p>
             `;
 
+            // Check for Amazon Textract multi-page warnings and add to summary
+            const amazonWarnings = [];
+            Object.entries(data.results).forEach(([method, result]) => {
+                if (method.startsWith('amazon-') && result.extraction_metadata?.multipage_warning) {
+                    amazonWarnings.push({
+                        method: method,
+                        originalPages: result.extraction_metadata.original_page_count,
+                        processedPages: result.extraction_metadata.processed_pages
+                    });
+                }
+            });
+
+            // Add warnings to processing summary if any Amazon methods had multi-page limitations
+            if (amazonWarnings.length > 0) {
+                const warningHtml = `
+                    <div class="alert alert-warning mt-3">
+                        <h6><i class="fas fa-exclamation-triangle"></i> ⚠️ Processing Limitations</h6>
+                        <p><strong>Amazon Textract Multi-page PDF Limitations:</strong></p>
+                        <ul class="mb-2">
+                            ${amazonWarnings.map(warning => {
+                                const methodDisplay = warning.method.replace('amazon-', 'Amazon Textract ').replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                                return `<li><strong>${methodDisplay}:</strong> Original PDF had ${warning.originalPages} pages, only first page processed.</li>`;
+                            }).join('')}
+                        </ul>
+                        <small><strong>Note:</strong> Amazon Textract's synchronous APIs only support single-page documents. Consider using other methods for complete multi-page processing.</small>
+                    </div>
+                `;
+                summary.innerHTML += warningHtml;
+            }
+
             // Method rankings
             const rankings = document.getElementById('method-rankings');
             if (data.comparison && data.comparison.method_rankings) {
@@ -940,18 +1042,40 @@
             Object.entries(results).forEach(([method, result]) => {
                 const row = document.createElement('tr');
                 const qualityScore = result.quality_score || 0;
-                const qualityClass = qualityScore >= 0.8 ? 'success' : qualityScore >= 0.6 ? 'warning' : 'danger';
+
+                // Check if extraction failed
+                const hasFailed = result.success === false || result.error_message;
+
+                // Set quality class based on success and score
+                let qualityClass, methodBadge, tablesCell, textBlocksCell;
+
+                if (hasFailed) {
+                    qualityClass = 'danger';
+                    methodBadge = `<span class="badge bg-danger">${method}</span>`;
+                    tablesCell = `<span class="text-danger">Error</span>`;
+                    textBlocksCell = `<span class="text-danger">Error</span>`;
+                } else {
+                    qualityClass = qualityScore >= 0.8 ? 'success' : qualityScore >= 0.6 ? 'warning' : 'danger';
+                    methodBadge = `<span class="badge bg-${qualityClass}">${method}</span>`;
+                    tablesCell = result.tables?.length || 0;
+                    textBlocksCell = result.text_blocks?.length || 0;
+                }
 
                 row.innerHTML = `
-                    <td><span class="badge bg-${qualityClass}">${method}</span></td>
-                    <td>${qualityScore.toFixed(3)}</td>
-                    <td>${result.tables?.length || 0}</td>
-                    <td>${result.text_blocks?.length || 0}</td>
+                    <td>${methodBadge}</td>
+                    <td>${hasFailed ? '<span class="text-danger">N/A</span>' : qualityScore.toFixed(3)}</td>
+                    <td>${tablesCell}</td>
+                    <td>${textBlocksCell}</td>
                     <td>${(result.processing_time || 0).toFixed(3)}s</td>
                     <td>
-                        <button class="btn btn-sm btn-outline-primary" onclick="downloadResult('${method}', 'json')">
-                            <i class="fas fa-download"></i>
-                        </button>
+                        ${hasFailed ?
+                            `<button class="btn btn-sm btn-outline-danger" title="${result.error_message || 'Extraction failed'}" disabled>
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </button>` :
+                            `<button class="btn btn-sm btn-outline-primary" onclick="downloadResult('${method}', 'json')">
+                                <i class="fas fa-download"></i>
+                            </button>`
+                        }
                     </td>
                 `;
                 tbody.appendChild(row);
@@ -999,6 +1123,16 @@
             const result = currentResults.results[method];
             const container = document.getElementById('tables-content');
 
+            // Check if extraction failed
+            if (result.success === false || result.error_message) {
+                container.innerHTML = `<div class="alert alert-danger">
+                    <h6><i class="fas fa-exclamation-triangle"></i> Extraction Failed</h6>
+                    <p><strong>Method:</strong> ${method}</p>
+                    <p><strong>Error:</strong> ${result.error_message || 'Unknown error occurred'}</p>
+                </div>`;
+                return;
+            }
+
             if (!result.tables || result.tables.length === 0) {
                 container.innerHTML = '<p class="text-muted">No tables found</p>';
                 return;
@@ -1040,6 +1174,16 @@
             const result = currentResults.results[method];
             const container = document.getElementById('text-content');
 
+            // Check if extraction failed
+            if (result.success === false || result.error_message) {
+                container.innerHTML = `<div class="alert alert-danger">
+                    <h6><i class="fas fa-exclamation-triangle"></i> Extraction Failed</h6>
+                    <p><strong>Method:</strong> ${method}</p>
+                    <p><strong>Error:</strong> ${result.error_message || 'Unknown error occurred'}</p>
+                </div>`;
+                return;
+            }
+
             if (!result.text_blocks || result.text_blocks.length === 0) {
                 container.innerHTML = '<p class="text-muted">No text blocks found</p>';
                 return;
@@ -1065,7 +1209,18 @@
         function displayJsonData(method) {
             const result = currentResults.results[method];
             const container = document.getElementById('json-content');
-            container.textContent = JSON.stringify(result, null, 2);
+
+            // Check if extraction failed
+            if (result.success === false || result.error_message) {
+                container.innerHTML = `<div class="alert alert-danger mb-3">
+                    <h6><i class="fas fa-exclamation-triangle"></i> Extraction Failed</h6>
+                    <p><strong>Method:</strong> ${method}</p>
+                    <p><strong>Error:</strong> ${result.error_message || 'Unknown error occurred'}</p>
+                </div>
+                <pre class="bg-light p-3 border rounded"><code>${JSON.stringify(result, null, 2)}</code></pre>`;
+            } else {
+                container.innerHTML = `<pre class="bg-light p-3 border rounded"><code>${JSON.stringify(result, null, 2)}</code></pre>`;
+            }
         }
 
         function calculateTotalTime(results) {
@@ -1151,6 +1306,32 @@
 
                     // Check if environment variables are available (passed from server)
                     return window.adobeEnvAvailable || false;
+                },
+                'amazon-detect-text': () => {
+                    // Check if AWS credentials are provided via UI
+                    const accessKeyId = document.querySelector('input[name="aws_access_key_id"]')?.value;
+                    const secretAccessKey = document.querySelector('input[name="aws_secret_access_key"]')?.value;
+
+                    // If UI credentials are provided, use them
+                    if (accessKeyId && secretAccessKey) {
+                        return true;
+                    }
+
+                    // Check if environment variables are available (passed from server)
+                    return window.awsEnvAvailable || false;
+                },
+                'amazon-analyze-document': () => {
+                    // Check if AWS credentials are provided via UI
+                    const accessKeyId = document.querySelector('input[name="aws_access_key_id"]')?.value;
+                    const secretAccessKey = document.querySelector('input[name="aws_secret_access_key"]')?.value;
+
+                    // If UI credentials are provided, use them
+                    if (accessKeyId && secretAccessKey) {
+                        return true;
+                    }
+
+                    // Check if environment variables are available (passed from server)
+                    return window.awsEnvAvailable || false;
                 }
             };
 

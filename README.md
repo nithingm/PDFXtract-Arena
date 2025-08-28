@@ -258,11 +258,11 @@ The web interface provides an intuitive way to compare PDF extraction methods:
 
 | Method | Speed | Text Quality | Table Support | OCR Support | Setup Required |
 |--------|-------|--------------|---------------|-------------|----------------|
-| PDFplumber | ⚡⚡⚡ | ⭐⭐⭐ | ⭐⭐ | ❌ | None |
-| Poppler | ⚡⚡⚡ | ⭐⭐⭐⭐ | ❌ | ❌ | Poppler utilities |
-| Tesseract OCR | ⚡ | ⭐⭐⭐⭐ | ❌ | ✅ | Tesseract + Poppler |
-| Camelot | ⚡⚡ | ⭐⭐ | ⭐⭐⭐⭐ | ❌ | None |
-| Tabula | ⚡⚡ | ⭐⭐ | ⭐⭐⭐ | ❌ | Java |
+| PDFplumber | Fast | Good | Basic | No | None |
+| Poppler | Fast | Excellent | No | No | Poppler utilities |
+| Tesseract OCR | Slow | Excellent | No | Yes | Tesseract + Poppler |
+| Camelot | Medium | Basic | Excellent | No | None |
+| Tabula | Medium | Basic | Good | No | Java |
 
 **Recommendations:**
 - **Text-heavy PDFs**: Use Poppler for best quality and speed
@@ -345,10 +345,10 @@ The web interface displays results in organized tabs:
 ### Quality Metrics
 
 **Quality Score (0-1)**: Higher = better extraction quality
-- 🟢 0.8-1.0: Excellent, production-ready
-- 🟡 0.6-0.8: Good, minor issues
-- 🔴 <0.6: Poor, needs review
-- ⚠️ Note: Quality scoring is still being refined
+- 0.8-1.0: Excellent, production-ready
+- 0.6-0.8: Good, minor issues
+- <0.6: Poor, needs review
+- Note: Quality scoring is still being refined
 
 **Other Metrics:**
 - **Tables Found**: Number of tables detected
@@ -444,18 +444,21 @@ python -m pdfx_bench.cli --input document.pdf --method llm-openai,llm-anthropic,
 
 ## Testing
 
-Run the test suite to verify your installation:
+The `tests/` directory contains integration tests and validation scripts:
 
 ```bash
-# Install test dependencies
-pip install pytest
+# Run integration tests
+python tests/test_complete_workflow.py
+python tests/test_amazon_textract.py
 
-# Run basic tests
-pytest tests/ -v
+# Test web UI functionality
+python tests/test_web_amazon_textract.py
 
-# Test specific methods
-pytest tests/test_pdfplumber.py -v
+# Test specific adapters
+python tests/test_adobe_adapter.py
 ```
+
+See `tests/README.md` for detailed testing instructions and requirements.
 
 ---
 

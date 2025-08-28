@@ -1,9 +1,0 @@
-{
-  "total_pdfs": 1,
-  "successful_pdfs": 1,
-  "methods_used": [
-    "tesseract"
-  ],
-  "output_directory": "test_page_range",
-  "processing_time": {}
-}
